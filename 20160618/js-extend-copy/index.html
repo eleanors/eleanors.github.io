@@ -1,0 +1,663 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="JavaScript 继承与拷贝本文讨论JavaScript中如何实现继承关系，以及如何拷贝对象。下面，我们分别探讨4种继承方法。谈完继承方法后，再谈论对象的拷贝。
+需要提前说明的是，后文需要继承的构造器函数是：
+123456var Animal = function(name)&amp;#123;    this.name = name;&amp;#125;;Animal.prototype.jump = fu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript之继承与拷贝">
+<meta property="og:url" content="http://yoursite.com/20160618/js-extend-copy/index.html">
+<meta property="og:site_name" content="云淡风轻">
+<meta property="og:description" content="JavaScript 继承与拷贝本文讨论JavaScript中如何实现继承关系，以及如何拷贝对象。下面，我们分别探讨4种继承方法。谈完继承方法后，再谈论对象的拷贝。
+需要提前说明的是，后文需要继承的构造器函数是：
+123456var Animal = function(name)&amp;#123;    this.name = name;&amp;#125;;Animal.prototype.jump = fu">
+<meta property="og:updated_time" content="2016-08-10T06:11:33.512Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript之继承与拷贝">
+<meta name="twitter:description" content="JavaScript 继承与拷贝本文讨论JavaScript中如何实现继承关系，以及如何拷贝对象。下面，我们分别探讨4种继承方法。谈完继承方法后，再谈论对象的拷贝。
+需要提前说明的是，后文需要继承的构造器函数是：
+123456var Animal = function(name)&amp;#123;    this.name = name;&amp;#125;;Animal.prototype.jump = fu">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JavaScript之继承与拷贝 | 云淡风轻 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">云淡风轻</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript之继承与拷贝
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-18T18:14:03+08:00" content="2016-06-18">
+              2016-06-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="JavaScript-继承与拷贝"><a href="#JavaScript-继承与拷贝" class="headerlink" title="JavaScript 继承与拷贝"></a>JavaScript 继承与拷贝</h2><p>本文讨论JavaScript中如何实现继承关系，以及如何拷贝对象。下面，我们分别探讨4种继承方法。谈完继承方法后，再谈论对象的拷贝。</p>
+<p>需要提前说明的是，后文需要继承的构造器函数是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Animal = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;;</span><br><span class="line">Animal.prototype.jump = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'jumped'</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="原型链继承法"><a href="#原型链继承法" class="headerlink" title="原型链继承法"></a>原型链继承法</h4><p>本方法的特性在于，能够把可以重用的部分迁移到原型链中，而不可重用的则设置为对象的自身属性。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Human = <span class="function"><span class="keyword">function</span><span class="params">(name)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 这一步会使得</span></span><br><span class="line"><span class="comment">// Human.prototype.constructor = Animal;</span></span><br><span class="line"><span class="comment">// 所以需要重新手动重定向</span></span><br><span class="line">Human.prototype = <span class="keyword">new</span> Animal;</span><br><span class="line"><span class="comment">// 如果不更改</span></span><br><span class="line"><span class="comment">// 通过`Human`构造器构造出来的对象的构造器会变成`Animal`而不是`Human`</span></span><br><span class="line">Human.prototype.constructor = Human;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> man = <span class="keyword">new</span> Human(<span class="string">'HaoyCn'</span>);</span><br><span class="line">man.jump();</span><br></pre></td></tr></table></figure>
+<p>现在，对象 <code>man</code> 可以使用 <code>Animal.prototype.jump</code> 方法，查找过程是：</p>
+<ol>
+<li><code>man</code> 自身没有<code>jump</code>方法</li>
+<li>查找 <code>man.constructor.prototype</code>，即<code>Human.prototype</code>，可<code>Human.prototype</code>本身也没有 <code>jump</code> 方法，而它又是一个由 <code>Animal</code> 构造的对象，所以</li>
+<li>查找 <code>Animal.prototype</code>，在其中找到了 <code>jump</code> 方法，执行之</li>
+</ol>
+<h4 id="仅从原型继承法"><a href="#仅从原型继承法" class="headerlink" title="仅从原型继承法"></a>仅从原型继承法</h4><p>和”原型链继承法”相比，本方法的优点在于，提高了运行时的效率，没有创建新对象出来。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Human = <span class="function"><span class="keyword">function</span><span class="params">(name)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;;</span><br><span class="line">Human.prototype = Animal.prototype;</span><br><span class="line"><span class="keyword">var</span> man = <span class="keyword">new</span> Human(<span class="string">'HaoyCn'</span>);</span><br><span class="line">man.jump();</span><br></pre></td></tr></table></figure>
+<p>这时候的查找过程是：</p>
+<ol>
+<li><code>man</code> 自身没有<code>jump</code>方法</li>
+<li>查找 <code>man.constructor.prototype</code>，即<code>Human.prototype</code>，<code>Human.prototype</code>是对 <code>Animal.prototype</code> 的引用，在其中找到了 <code>jump</code> 方法，执行之</li>
+</ol>
+<p>减少了一步。然而代价则是：对 <code>Human.prototype</code> 的修改都会影响到 <code>Animal.prototype</code>，因为前者是对后者的引用。</p>
+<p>一个致命缺点就是，无法修正子类构造的对象的 <code>constructor</code>。</p>
+<p>测试一下：</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">man.<span class="keyword">constructor</span> === Animal;<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>我们来回顾一下 <code>new</code> 的过程：</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> newProcess = <span class="function"><span class="keyword">function</span><span class="params">()</span><span class="comment">&#123;</span><br><span class="line">    var ret;</span><br><span class="line">    // 构造一个新对象</span><br><span class="line">    var obj = &#123;&#125;</span>;</span></span><br><span class="line">    <span class="comment">// 构造函数</span></span><br><span class="line">    <span class="keyword">var</span> <span class="function"><span class="keyword">Constructor</span> = <span class="title">Array</span>.<span class="title">prototype</span>.<span class="title">shift</span>.<span class="title">call</span><span class="params">(arguments)</span>;</span></span><br><span class="line">    <span class="comment">// 记录原型</span></span><br><span class="line">    obj.__proto__ = <span class="function"><span class="keyword">Constructor</span>.<span class="title">prototype</span>;</span></span><br><span class="line">    <span class="comment">// 运用构造函数给新对象设置属性</span></span><br><span class="line">    ret = <span class="function"><span class="keyword">Constructor</span>.<span class="title">apply</span><span class="params">(obj,arguments)</span>;</span></span><br><span class="line">    <span class="comment">// 始终返回一个对象</span></span><br><span class="line">    return <span class="string">'object'</span> === typeof ret ? ret : obj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>我们以此来回顾下”仅从原型继承法”是如何创建出 <code>man</code> 的。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// var man = newProcess(Human,'HaoyCn');</span></span><br><span class="line"><span class="comment">// 还原如下</span></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">ret</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="keyword">man</span> = &#123;&#125;;</span><br><span class="line"><span class="comment">// var Constructor = Array.prototype.shift.call(arguments);</span></span><br><span class="line"><span class="comment">// 即是</span></span><br><span class="line"><span class="comment">//var Constructor = Human;</span></span><br><span class="line"><span class="keyword">man</span>.__proto__ = Human.prototype;</span><br><span class="line"><span class="comment">// ret = Human.apply(obj,arguments);</span></span><br><span class="line"><span class="comment">// `Human`构造器执行的是</span></span><br><span class="line"><span class="keyword">man</span>.name = 'HaoyCn';</span><br><span class="line"><span class="comment">// `Human`构造器返回的是 undefined，即 ret = undefined;</span></span><br><span class="line"><span class="comment">// 所以最后`newProcess`返回`man`</span></span><br></pre></td></tr></table></figure>
+<p>因此，就不难理解了：</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">man.<span class="keyword">constructor</span> === </span><br><span class="line">    man.__proto__.<span class="keyword">constructor</span> === </span><br><span class="line">    Human.prototype.<span class="keyword">constructor</span> ===</span><br><span class="line">    Animal.prototype.<span class="keyword">constructor</span> ===</span><br><span class="line">Animal</span><br></pre></td></tr></table></figure>
+<h4 id="临时构造器继承法"><a href="#临时构造器继承法" class="headerlink" title="临时构造器继承法"></a>临时构造器继承法</h4><p>“仅从原型继承法”的问题暴露出来了：<code>Animal.prototype</code> 会因对 <code>Human.prototype</code> 的修改而改变。如果被改变了，由 <code>Animal</code> 构造出来的对象也会发生改变。我们来举个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> monkey = <span class="keyword">new</span> Animal(<span class="string">'monkey'</span>);</span><br><span class="line"><span class="keyword">var</span> woman = <span class="keyword">new</span> Human(<span class="string">'woman'</span>);</span><br><span class="line">monkey.jump();<span class="comment">// jumped</span></span><br><span class="line">woman.jump();<span class="comment">// jumped</span></span><br><span class="line"><span class="comment">// 下面的修改会影响`Animal.prototype`</span></span><br><span class="line">Human.prototype.jump = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'I refuse'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 原本构造好的对象也会被影响</span></span><br><span class="line">monkey.jump();<span class="comment">// I refuse</span></span><br><span class="line">woman.jump();<span class="comment">// I refuse</span></span><br></pre></td></tr></table></figure>
+<p>那么，我们如何规避这个问题呢？</p>
+<p>“临时构造器继承法”使用一个中介函数，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">F.prototype = Animal.prototype;</span><br><span class="line"><span class="keyword">var</span> Human = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;;</span><br><span class="line">Human.prototype = <span class="keyword">new</span> F;</span><br><span class="line">Human.prototype.constructor = Human;</span><br><span class="line">Human.prototype.sing = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Mayday'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> man = <span class="keyword">new</span> Human(<span class="string">'HaoyCn'</span>);</span><br><span class="line">man.jump();</span><br><span class="line">man.sing();</span><br></pre></td></tr></table></figure>
+<p>我们对 <code>Human.prototype</code> 的任何改变都变成了对一个由中介构造器创建的对象的属性的修改。<code>jump</code> 查找过程是：</p>
+<ol>
+<li><code>man</code> 自身没有<code>jump</code>方法</li>
+<li>查找 <code>man.constructor.prototype</code>，即<code>Human.prototype</code>，可<code>Human.prototype</code>本身也没有 <code>jump</code> 方法，而它又是一个由 <code>F</code> 构造的对象，所以</li>
+<li>查找 <code>F.prototype</code>，即 <code>Animal.prototype</code>，在其中找到了 <code>jump</code> 方法，执行之</li>
+</ol>
+<p>那这个方法同最开始的”仅从原型继承法”相比，又有什么进步呢？</p>
+<p>先看”仅从原型继承法”中的操作：</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Human</span>.proto<span class="keyword">type</span> = new <span class="type">Animal</span>;</span><br><span class="line">// 这将造成：</span><br><span class="line">// <span class="type">Human</span>.proto<span class="keyword">type</span>.name = undefined;// 没有给`<span class="type">Animal</span>`传入参数之故</span><br></pre></td></tr></table></figure>
+<p>也就是说，<code>Human.prototype</code> 会多出不必要的属性来，而中介器则避免了这种不必要的属性。</p>
+<h4 id="构造器借用法"><a href="#构造器借用法" class="headerlink" title="构造器借用法"></a>构造器借用法</h4><p>以上继承法共通的一个缺点在于，<code>Human</code> 构造器构造的对象虽然可以共用 <code>Animal.prototype</code>，但对于 <code>name</code> 属性而言，<code>Human</code> 构造器只能自己再写一遍构造 <code>name</code> 属性，为什么不把初始化属性的方法也共（借）用呢？</p>
+<p>构造器借用法应运而生。现在我们把 <code>name</code> 属性的创建还是交给 <code>Animal</code>，然后再为 <code>Human</code> 增加 <code>country</code> 属性。我们在”临时构造器法”基础上进一步完善之。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">F.prototype = Animal.prototype;</span><br><span class="line"><span class="keyword">var</span> Human = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    Animal.apply(<span class="keyword">this</span>,<span class="built_in">arguments</span>);</span><br><span class="line">    <span class="keyword">this</span>.country = <span class="built_in">arguments</span>[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line">Human.prototype = <span class="keyword">new</span> F;</span><br><span class="line">Human.prototype.constructor = Human;</span><br><span class="line"><span class="keyword">var</span> man = <span class="keyword">new</span> Human(<span class="string">'HaoyCn'</span>,<span class="string">'China'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(man.country);<span class="comment">// China</span></span><br></pre></td></tr></table></figure>
+<p>这样，我们就轻轻松松地完成了偷懒。这让我想到了PHP中覆盖构造函数的办法，如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PHP</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $name;</span><br><span class="line">    <span class="keyword">public</span> $country;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name,$country)</span></span>&#123;</span><br><span class="line">        <span class="keyword">parent</span>::__construct($name);</span><br><span class="line">        $this-&gt;country = $country;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关于继承的话题到此结束。接下来谈拷贝。</p>
+<h2 id="原型属性拷贝法"><a href="#原型属性拷贝法" class="headerlink" title="原型属性拷贝法"></a>原型属性拷贝法</h2><p>利用了原型机制。在高级浏览器中，有 <code>Object.create</code> 方法来完成对对象的拷贝，我们现在就简单地还原之：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.create = <span class="built_in">Object</span>.create || <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">    F.prototype = obj;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这是一种浅拷贝。如果我们对被拷贝对象进行修改，也会影响到新对象。举例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> man = &#123;</span><br><span class="line">    name: <span class="string">'HaoyCn'</span>,</span><br><span class="line">    jump: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'jumped'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> monkey = <span class="built_in">Object</span>.create(man);</span><br><span class="line">monkey.jump();<span class="comment">// jumped</span></span><br><span class="line">man.jump = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'I refuse'</span>);</span><br><span class="line">&#125;;</span><br><span class="line">monkey.jump();<span class="comment">// I refuse</span></span><br></pre></td></tr></table></figure>
+<h2 id="浅拷贝与深拷贝"><a href="#浅拷贝与深拷贝" class="headerlink" title="浅拷贝与深拷贝"></a>浅拷贝与深拷贝</h2><p>问题摆在面前，如何深拷贝？</p>
+<p>我们拷贝对象除了”原型属性拷贝法”之外，还可以通过遍历来完成。如浅拷贝遍历：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> man = &#123;</span><br><span class="line">    name: <span class="string">'HaoyCn'</span>,</span><br><span class="line">    jump: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'jumped'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> monkey = &#123;&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> man)&#123;</span><br><span class="line">    monkey[i] = man[i]; </span><br><span class="line">&#125;</span><br><span class="line">monkey.jump();<span class="comment">// jumped</span></span><br></pre></td></tr></table></figure>
+<p>而深拷贝要做的就是，如果属性还是个对象，就递归拷贝。</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function deepCopy(<span class="built_in">origin</span>,<span class="built_in">copy</span>)&#123;</span><br><span class="line">    <span class="built_in">copy</span> = <span class="built_in">copy</span> || &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">var</span> i <span class="keyword">in</span> <span class="built_in">origin</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>('object' === typeof <span class="built_in">origin</span>[i])&#123;</span><br><span class="line">            // 判断是否为数组还有更好办法，这里从简</span><br><span class="line">            <span class="built_in">copy</span>[i] = ('Array' === <span class="built_in">origin</span>[i].constructor) ? [] : &#123;&#125;;</span><br><span class="line">            deepCopy(<span class="built_in">origin</span>[i],<span class="built_in">copy</span>[i]);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">copy</span>[i] = <span class="built_in">origin</span>[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上是深拷贝的一个扼要原理代码。更复杂的检验过程，可以参考 <code>jQuery.extend</code>。但是，这样的拷贝（包括<code>jQuery.extend</code>的深拷贝）只能完成对纯粹对象的深拷贝，而函数、RegExp、Date等都无法深拷贝。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20160430/article-30/" rel="next" title="HTML5本地存储">
+                <i class="fa fa-chevron-left"></i> HTML5本地存储
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20160620/css-retina-lines/" rel="prev" title="Retina屏的移动设备如何实现真正1px的线？">
+                Retina屏的移动设备如何实现真正1px的线？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avator.png"
+               alt="Eleanor" />
+          <p class="site-author-name" itemprop="name">Eleanor</p>
+          <p class="site-description motion-element" itemprop="description">WEB前端, JavaScript, HTML5, PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript-继承与拷贝"><span class="nav-number">1.</span> <span class="nav-text">JavaScript 继承与拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原型链继承法"><span class="nav-number">1.0.1.</span> <span class="nav-text">原型链继承法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仅从原型继承法"><span class="nav-number">1.0.2.</span> <span class="nav-text">仅从原型继承法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#临时构造器继承法"><span class="nav-number">1.0.3.</span> <span class="nav-text">临时构造器继承法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造器借用法"><span class="nav-number">1.0.4.</span> <span class="nav-text">构造器借用法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原型属性拷贝法"><span class="nav-number">2.</span> <span class="nav-text">原型属性拷贝法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浅拷贝与深拷贝"><span class="nav-number">3.</span> <span class="nav-text">浅拷贝与深拷贝</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eleanor</span>
+</div>
+
+<!--div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div -->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
