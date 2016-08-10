@@ -90,7 +90,7 @@
 <meta property="og:description" content="JavaScript 继承与拷贝本文讨论JavaScript中如何实现继承关系，以及如何拷贝对象。下面，我们分别探讨4种继承方法。谈完继承方法后，再谈论对象的拷贝。
 需要提前说明的是，后文需要继承的构造器函数是：
 123456var Animal = function(name)&amp;#123;    this.name = name;&amp;#125;;Animal.prototype.jump = fu">
-<meta property="og:updated_time" content="2016-08-10T06:11:33.512Z">
+<meta property="og:updated_time" content="2016-08-10T06:38:57.310Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript之继承与拷贝">
 <meta name="twitter:description" content="JavaScript 继承与拷贝本文讨论JavaScript中如何实现继承关系，以及如何拷贝对象。下面，我们分别探讨4种继承方法。谈完继承方法后，再谈论对象的拷贝。
@@ -312,7 +312,7 @@
       
 
       
-        <h2 id="JavaScript-继承与拷贝"><a href="#JavaScript-继承与拷贝" class="headerlink" title="JavaScript 继承与拷贝"></a>JavaScript 继承与拷贝</h2><p>本文讨论JavaScript中如何实现继承关系，以及如何拷贝对象。下面，我们分别探讨4种继承方法。谈完继承方法后，再谈论对象的拷贝。</p>
+        <h3 id="JavaScript-继承与拷贝"><a href="#JavaScript-继承与拷贝" class="headerlink" title="JavaScript 继承与拷贝"></a>JavaScript 继承与拷贝</h3><p>本文讨论JavaScript中如何实现继承关系，以及如何拷贝对象。下面，我们分别探讨4种继承方法。谈完继承方法后，再谈论对象的拷贝。</p>
 <p>需要提前说明的是，后文需要继承的构造器函数是：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Animal = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;;</span><br><span class="line">Animal.prototype.jump = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'jumped'</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <h4 id="原型链继承法"><a href="#原型链继承法" class="headerlink" title="原型链继承法"></a>原型链继承法</h4><p>本方法的特性在于，能够把可以重用的部分迁移到原型链中，而不可重用的则设置为对象的自身属性。</p>
@@ -361,11 +361,11 @@
 <p>这样，我们就轻轻松松地完成了偷懒。这让我想到了PHP中覆盖构造函数的办法，如下</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PHP</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $name;</span><br><span class="line">    <span class="keyword">public</span> $country;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name,$country)</span></span>&#123;</span><br><span class="line">        <span class="keyword">parent</span>::__construct($name);</span><br><span class="line">        $this-&gt;country = $country;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>关于继承的话题到此结束。接下来谈拷贝。</p>
-<h2 id="原型属性拷贝法"><a href="#原型属性拷贝法" class="headerlink" title="原型属性拷贝法"></a>原型属性拷贝法</h2><p>利用了原型机制。在高级浏览器中，有 <code>Object.create</code> 方法来完成对对象的拷贝，我们现在就简单地还原之：</p>
+<h3 id="原型属性拷贝法"><a href="#原型属性拷贝法" class="headerlink" title="原型属性拷贝法"></a>原型属性拷贝法</h3><p>利用了原型机制。在高级浏览器中，有 <code>Object.create</code> 方法来完成对对象的拷贝，我们现在就简单地还原之：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.create = <span class="built_in">Object</span>.create || <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">    F.prototype = obj;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到，这是一种浅拷贝。如果我们对被拷贝对象进行修改，也会影响到新对象。举例如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> man = &#123;</span><br><span class="line">    name: <span class="string">'HaoyCn'</span>,</span><br><span class="line">    jump: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'jumped'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> monkey = <span class="built_in">Object</span>.create(man);</span><br><span class="line">monkey.jump();<span class="comment">// jumped</span></span><br><span class="line">man.jump = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'I refuse'</span>);</span><br><span class="line">&#125;;</span><br><span class="line">monkey.jump();<span class="comment">// I refuse</span></span><br></pre></td></tr></table></figure>
-<h2 id="浅拷贝与深拷贝"><a href="#浅拷贝与深拷贝" class="headerlink" title="浅拷贝与深拷贝"></a>浅拷贝与深拷贝</h2><p>问题摆在面前，如何深拷贝？</p>
+<h4 id="浅拷贝与深拷贝"><a href="#浅拷贝与深拷贝" class="headerlink" title="浅拷贝与深拷贝"></a>浅拷贝与深拷贝</h4><p>问题摆在面前，如何深拷贝？</p>
 <p>我们拷贝对象除了”原型属性拷贝法”之外，还可以通过遍历来完成。如浅拷贝遍历：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> man = &#123;</span><br><span class="line">    name: <span class="string">'HaoyCn'</span>,</span><br><span class="line">    jump: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'jumped'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> monkey = &#123;&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> man)&#123;</span><br><span class="line">    monkey[i] = man[i]; </span><br><span class="line">&#125;</span><br><span class="line">monkey.jump();<span class="comment">// jumped</span></span><br></pre></td></tr></table></figure>
 <p>而深拷贝要做的就是，如果属性还是个对象，就递归拷贝。</p>
@@ -478,7 +478,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -486,7 +486,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -495,7 +495,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -524,7 +524,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript-继承与拷贝"><span class="nav-number">1.</span> <span class="nav-text">JavaScript 继承与拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原型链继承法"><span class="nav-number">1.0.1.</span> <span class="nav-text">原型链继承法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仅从原型继承法"><span class="nav-number">1.0.2.</span> <span class="nav-text">仅从原型继承法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#临时构造器继承法"><span class="nav-number">1.0.3.</span> <span class="nav-text">临时构造器继承法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造器借用法"><span class="nav-number">1.0.4.</span> <span class="nav-text">构造器借用法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原型属性拷贝法"><span class="nav-number">2.</span> <span class="nav-text">原型属性拷贝法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浅拷贝与深拷贝"><span class="nav-number">3.</span> <span class="nav-text">浅拷贝与深拷贝</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JavaScript-继承与拷贝"><span class="nav-number">1.</span> <span class="nav-text">JavaScript 继承与拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原型链继承法"><span class="nav-number">1.1.</span> <span class="nav-text">原型链继承法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仅从原型继承法"><span class="nav-number">1.2.</span> <span class="nav-text">仅从原型继承法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#临时构造器继承法"><span class="nav-number">1.3.</span> <span class="nav-text">临时构造器继承法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造器借用法"><span class="nav-number">1.4.</span> <span class="nav-text">构造器借用法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型属性拷贝法"><span class="nav-number">2.</span> <span class="nav-text">原型属性拷贝法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#浅拷贝与深拷贝"><span class="nav-number">2.1.</span> <span class="nav-text">浅拷贝与深拷贝</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
