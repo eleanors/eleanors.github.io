@@ -1,0 +1,644 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Note, WEB, PHP" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Event的问题在ie中我们可以直接使用event变量，但是在firefox下由于event是局部变量，firefox下我们可以事件绑定到元素上 例如&amp;lt;input type=&amp;quot;button&amp;quot; onclick=&amp;quot;doEvent (event)&amp;quot;&amp;gt;为了同时兼容ie和firefox 通常在函数种通过以下代码获得事件。 
+12345var theEven">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript之IE和Firefox的兼容问题">
+<meta property="og:url" content="http://yoursite.com/20160614/js-compatible/index.html">
+<meta property="og:site_name" content="云淡风轻">
+<meta property="og:description" content="Event的问题在ie中我们可以直接使用event变量，但是在firefox下由于event是局部变量，firefox下我们可以事件绑定到元素上 例如&amp;lt;input type=&amp;quot;button&amp;quot; onclick=&amp;quot;doEvent (event)&amp;quot;&amp;gt;为了同时兼容ie和firefox 通常在函数种通过以下代码获得事件。 
+12345var theEven">
+<meta property="og:updated_time" content="2016-08-10T15:15:54.139Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript之IE和Firefox的兼容问题">
+<meta name="twitter:description" content="Event的问题在ie中我们可以直接使用event变量，但是在firefox下由于event是局部变量，firefox下我们可以事件绑定到元素上 例如&amp;lt;input type=&amp;quot;button&amp;quot; onclick=&amp;quot;doEvent (event)&amp;quot;&amp;gt;为了同时兼容ie和firefox 通常在函数种通过以下代码获得事件。 
+12345var theEven">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JavaScript之IE和Firefox的兼容问题 | 云淡风轻 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">云淡风轻</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript之IE和Firefox的兼容问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-14T16:15:41+08:00" content="2016-06-14">
+              2016-06-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Event的问题"><a href="#Event的问题" class="headerlink" title="Event的问题"></a>Event的问题</h3><p>在ie中我们可以直接使用event变量，但是在firefox下由于event是局部变量，firefox下我们可以事件绑定到元素上 例如<br><code>&lt;input type=&quot;button&quot; onclick=&quot;doEvent (event)&quot;&gt;</code><br>为了同时兼容ie和firefox 通常在函数种通过以下代码获得事件。 </p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> theEvent = <span class="keyword">window</span>.event||<span class="keyword">e</span>; </span><br><span class="line"><span class="keyword">var</span> srcElement = theEvent.srcElement; </span><br><span class="line">   <span class="keyword">if</span> (!srcElement) &#123; </span><br><span class="line">        srcElement = theEvent.target; </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="滤镜问题"><a href="#滤镜问题" class="headerlink" title="滤镜问题"></a>滤镜问题</h3><p>在IE下是用.filters.alpha.opacity<br>在Firefox下是用.style.opacity<br>一般是来设置元素的透明度，所以我们一般通过以下代码来解决兼容问题 </p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> IE = navigator.userAgent.indexOf(<span class="string">"MSIE"</span>)&gt;<span class="number">0</span>? <span class="number">1</span>: <span class="number">0</span>; </span><br><span class="line"><span class="keyword">if</span>(IE) </span><br><span class="line">&#123; </span><br><span class="line">     obj.filters.alpha.<span class="built_in">opacity</span>; </span><br><span class="line">&#125; </span><br><span class="line">Else </span><br><span class="line">&#123; </span><br><span class="line">     obj.<span class="built_in">style</span>.<span class="built_in">opacity</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h3><p>IE下我们经常使用innerText，但是Firefox不支持此写法，通常我们写成textContent. 它同时兼容IE和firefox，建议大家采用textContent.对于没有html标签的我们也可以采用innerHTML替代。</p>
+<h3 id="event-srcElement"><a href="#event-srcElement" class="headerlink" title="event.srcElement"></a>event.srcElement</h3><p>IE下,event对象有srcElement属性,但是没有target属性;Firefox下,event对象有target属性,但是没有srcElement属性.<br>解决方法:使用obj(obj = event.srcElement ? event.srcElement : event.target;)</p>
+<h3 id="parentNode替代parentElement"><a href="#parentNode替代parentElement" class="headerlink" title="parentNode替代parentElement"></a>parentNode替代parentElement</h3><p>在IE中我可以通过obj.parentElement获得父元素，但是firex下不支持<br>因为firefox与IE都支持DOM，所有我们可以采用obj.parentNode来解决。</p>
+<h3 id="集合类对象问题"><a href="#集合类对象问题" class="headerlink" title="集合类对象问题"></a>集合类对象问题</h3><p>IE下,可以使用()或[]获取集合类对象;Firefox下,只能使用[]获取集合类对象.<br>解决方法:统一使用[]获取集合类对象.</p>
+<h3 id="自定义属性问题"><a href="#自定义属性问题" class="headerlink" title="自定义属性问题"></a>自定义属性问题</h3><p>说明:IE下,可以使用获取常规属性的方法来获取自定义属性,也可以使用getAttribute()获取自定义属性;Firefox下,只能使用getAttribute()获取自定义属性.<br>解决方法:统一通过getAttribute()获取自定义属性.</p>
+<h3 id="eval-“idName”-问题"><a href="#eval-“idName”-问题" class="headerlink" title="eval(“idName”)问题"></a>eval(“idName”)问题</h3><p>说明:IE下,,可以使用eval(“idName”)或getElementById(“idName”)来取得id为idName的HTML对象;Firefox下只能使用getElementById(“idName”)来取得id为idName的HTML对象.<br>解决方法:统一用getElementById(“idName”)来取得id为idName的HTML对象.</p>
+<h3 id="变量名与某HTML对象ID相同的问题"><a href="#变量名与某HTML对象ID相同的问题" class="headerlink" title="变量名与某HTML对象ID相同的问题"></a>变量名与某HTML对象ID相同的问题</h3><p>说明:IE下,HTML对象的ID可以作为document的下属对象变量名直接使用;Firefox下则不能.Firefox下,可以使用与HTML对象ID相同的变量名;IE下则不能。<br>解决方法:使用document.getElementById(“idName”)代替document.idName.最好不要取HTML对象ID相同的变量名,以减少错误;在声明变量时,一律加上var,以避免歧义.</p>
+<h3 id="const问题"><a href="#const问题" class="headerlink" title="const问题"></a>const问题</h3><p>说明:Firefox下,可以使用const关键字或var关键字来定义常量;IE下,只能使用var关键字来定义常量.<br>解决方法:统一使用var关键字来定义常量.</p>
+<h3 id="input-type属性问题"><a href="#input-type属性问题" class="headerlink" title="input.type属性问题"></a>input.type属性问题</h3><p>说明:IE下input.type属性为只读;但是Firefox下input.type属性为读写.</p>
+<h3 id="event-x与event-y问题"><a href="#event-x与event-y问题" class="headerlink" title="event.x与event.y问题"></a>event.x与event.y问题</h3><p>说明:IE下,even对象有x,y属性,但是没有pageX,pageY属性;Firefox下,even对象有pageX,pageY属性,但是没有x,y属性.<br>解决方法:使用mX(mX = event.x ? event.x : event.pageX;)来代替IE下的event.x或者Firefox下的event.pageX.</p>
+<h3 id="window-location-href问题"><a href="#window-location-href问题" class="headerlink" title="window.location.href问题"></a>window.location.href问题</h3><p>说明:IE或者Firefox2.0.x下,可以使用window.location或window.location.href;Firefox1.5.x下,只能使用window.location.<br>解决方法:使用window.location来代替window.location.href.</p>
+<h3 id="模态和非模态窗口问题"><a href="#模态和非模态窗口问题" class="headerlink" title="模态和非模态窗口问题"></a>模态和非模态窗口问题</h3><p>说明:IE下,可以通过showModalDialog和showModelessDialog打开模态和非模态窗口;Firefox下则不能.<br>解决方法:直接使用window.open(pageURL,name,parameters)方式打开新窗口。如果需要将子窗口中的参数传递回父窗口,可以在子窗口中使用window.opener来访问父窗口. 例如：var parWin = window.opener; parWin.document.getElementById(“Aqing”).value = “Aqing”;</p>
+<h3 id="frame问题"><a href="#frame问题" class="headerlink" title="frame问题"></a>frame问题</h3><p>以下面的frame为例： </p>
+<frame src="/xxx.html" id="frameId" name="frameName">
+
+<p>(1)访问frame对象:<br>IE:使用window.frameId或者window.frameName来访问这个frame对象.<br>Firefox:只能使用window.frameName来访问这个frame对象.<br>另外，在IE和Firefox中都可以使用window.document.getElementById(“frameId”)来访问这个frame对象.</p>
+<p>(2)切换frame内容:<br>在IE和Firefox中都可以使用window.document.getElementById(“testFrame”).src = “xxx.html”或window.frameName.location = “xxx.html”来切换frame的内容.</p>
+<p>如果需要将frame中的参数传回父窗口，可以在frme中使用parent来访问父窗口。例如：parent.document.form1.filename.value=”Aqing”;</p>
+<h3 id="事件委托方法"><a href="#事件委托方法" class="headerlink" title="事件委托方法"></a>事件委托方法</h3><p>IE：document.body.onload = inject; //Function inject()在这之前已被实现<br>Firefox：document.body.onload = inject();<br>document.body.onload=new Function(‘inject()’);</p>
+<h3 id="cursor-hand-和-cursor-pointer"><a href="#cursor-hand-和-cursor-pointer" class="headerlink" title="cursor:hand 和 cursor:pointer"></a>cursor:hand 和 cursor:pointer</h3><p>firefox不支持hand，但ie支持pointer<br>解决方法: 统一使用pointer </p>
+<h3 id="FireFox中类似-obj-style-height-imgObj-height-的语句无效"><a href="#FireFox中类似-obj-style-height-imgObj-height-的语句无效" class="headerlink" title="FireFox中类似 obj.style.height = imgObj.height 的语句无效"></a>FireFox中类似 obj.style.height = imgObj.height 的语句无效</h3><p>解决方法：<br>obj.style.height = imgObj.height + ‘px’;</p>
+<h3 id="对于-table-标签的操作"><a href="#对于-table-标签的操作" class="headerlink" title="对于 table 标签的操作"></a>对于 table 标签的操作</h3><p>ie,firefox以及其它浏览器对于 table 标签的操作都各不相同，在ie中不允许对table和tr的innerHTML赋值，使用js增加一个tr时，使用appendChile方法也不管用。</p>
+<p>解决方法：<br>//向table追加一个空行：<br>var row = otable.insertRow(-1);<br>var cell = document.createElement(“td”);<br>cell.innerHTML = “ “;<br>cell.className = “XXXX”;<br>row.appendChild(cell);</p>
+<h3 id="padding-问题"><a href="#padding-问题" class="headerlink" title="padding 问题"></a>padding 问题</h3><p>padding 5px 4px 3px 1px FireFox无法解释简写,必须改成 padding-top:5px; padding-right:4px; padding-bottom:3px; padding-left:1px;</p>
+<h3 id="消除ul、ol等列表的缩进时"><a href="#消除ul、ol等列表的缩进时" class="headerlink" title="消除ul、ol等列表的缩进时"></a>消除ul、ol等列表的缩进时</h3><p>样式应写成:list-style:none;margin:0px;padding:0px;<br>其中margin属性对IE有效，padding属性对FireFox有效</p>
+<h3 id="CSS透明"><a href="#CSS透明" class="headerlink" title="CSS透明"></a>CSS透明</h3><p>IE：filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=60)。<br>FF：opacity:0.6。</p>
+<h3 id="CSS圆角"><a href="#CSS圆角" class="headerlink" title="CSS圆角"></a>CSS圆角</h3><p>IE：不支持圆角。<br>FF： -moz-border-radius:4px，或者-moz-border-radius-topleft:4px;-moz-border- radius-topright:4px;-moz-border-radius-bottomleft:4px;-moz-border- radius- bottomright:4px;。</p>
+<h3 id="CSS双线凹凸边框"><a href="#CSS双线凹凸边框" class="headerlink" title="CSS双线凹凸边框"></a>CSS双线凹凸边框</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IE：<span class="attribute">border</span>:<span class="number">2px</span> outset;。 </span><br><span class="line">FF： -moz-<span class="attribute">border-top</span>-colors: <span class="number">#d4d0c8</span> white;-moz-<span class="attribute">border-left</span>-colors: <span class="number">#d4d0c8</span> white;-moz-<span class="attribute">border-right</span>-colors:<span class="number">#404040</span> <span class="number">#808080</span>;-moz-<span class="attribute">border-bottom</span>-colors:<span class="number">#404040</span> <span class="number">#808080</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="ie支持document-all-而firefox-不支持"><a href="#ie支持document-all-而firefox-不支持" class="headerlink" title="ie支持document.all 而firefox 不支持"></a>ie支持document.all 而firefox 不支持</h3><p>改用下面三个tag的其中一个来代替document.all </p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">getElementsByTagName(<span class="string">"tagName"</span>) 可以得到得到所有标签元素的集合 </span><br><span class="line">getElementById(<span class="string">"idName"</span>)          可以按id得到某一元素 </span><br><span class="line">getElementsByName(<span class="string">"Name"</span>)            可以得到按name属性得到某一元素 </span><br><span class="line"><span class="meta">### firefox 中使用innerHTML 的方法 </span></span><br><span class="line">&lt;<span class="keyword">div</span> id=<span class="string">"online"</span>&gt;&lt;/<span class="keyword">div</span>&gt; </span><br><span class="line">document.all.online.innerHTML; <span class="comment">//这种方法在IE中可以使用，但不是标准方法 </span></span><br><span class="line">document.getElementById(<span class="string">"online"</span>).innerHTML; <span class="comment">//这样firefox就能使用innerHTML了</span></span><br></pre></td></tr></table></figure>
+<h3 id="eval-与window-execScript-执行脚本"><a href="#eval-与window-execScript-执行脚本" class="headerlink" title="eval()与window.execScript()执行脚本"></a>eval()与window.execScript()执行脚本</h3><p>IE、firerox均支持eval()，firefox不支持window.execScript()<br>解决：统一使用eval() </p>
+<h3 id="e-button键值"><a href="#e-button键值" class="headerlink" title="e.button键值"></a>e.button键值</h3><p>e.button键值有别于event.button,只有3个键值而无组合键值</p>
+<h3 id="insertAdjacentHTML-和-insertAdjacentText"><a href="#insertAdjacentHTML-和-insertAdjacentText" class="headerlink" title="insertAdjacentHTML 和 insertAdjacentText"></a>insertAdjacentHTML 和 insertAdjacentText</h3><p><code>insertAdjacentHTML</code> 和 <code>insertAdjacentText</code> 是IE下特有的JS，功能非常好用</p>
+<p>可惜Firefox 没有这两东东，不过，加上下面的这段的，Firefox下也可以支持这两个方法了</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span>(typeof HTMLElement!=<span class="string">"undefined"</span> &amp;&amp; !HTMLElement.prototype.insertAdjacentElement) </span><br><span class="line">&#123; </span><br><span class="line">     HTMLElement.prototype.insertAdjacentElement = function(where,parsedNode) </span><br><span class="line">     &#123; </span><br><span class="line">        switch (where) </span><br><span class="line">        &#123; </span><br><span class="line">            case <span class="string">'beforeBegin'</span>: </span><br><span class="line">                <span class="keyword">this</span>.parentNode.insertBefore(parsedNode,<span class="keyword">this</span>) </span><br><span class="line">                <span class="keyword">break</span>; </span><br><span class="line">            case <span class="string">'afterBegin'</span>: </span><br><span class="line">                <span class="keyword">this</span>.insertBefore(parsedNode,<span class="keyword">this</span>.firstChild); </span><br><span class="line">                <span class="keyword">break</span>; </span><br><span class="line">            case <span class="string">'beforeEnd'</span>: </span><br><span class="line">                <span class="keyword">this</span>.appendChild(parsedNode); </span><br><span class="line">                <span class="keyword">break</span>; </span><br><span class="line">            case <span class="string">'afterEnd'</span>: </span><br><span class="line">             <span class="keyword">if</span> (<span class="keyword">this</span>.nextSibling) <span class="keyword">this</span>.parentNode.insertBefore(parsedNode,<span class="keyword">this</span>.nextSibling); </span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">this</span>.parentNode.appendChild(parsedNode); </span><br><span class="line">                <span class="keyword">break</span>; </span><br><span class="line">         &#125; </span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     HTMLElement.prototype.insertAdjacentHTML = function (where,htmlStr) </span><br><span class="line">     &#123; </span><br><span class="line">         <span class="keyword">var</span> r = <span class="keyword">this</span>.ownerDocument.createRange(); </span><br><span class="line">         r.setStartBefore(<span class="keyword">this</span>); </span><br><span class="line">         <span class="keyword">var</span> parsedHTML = r.createContextualFragment(htmlStr); </span><br><span class="line">         <span class="keyword">this</span>.insertAdjacentElement(where,parsedHTML) </span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     HTMLElement.prototype.insertAdjacentText = function (where,txtStr) </span><br><span class="line">     &#123; </span><br><span class="line">         <span class="keyword">var</span> parsedText = document.createTextNode(txtStr) </span><br><span class="line">         <span class="keyword">this</span>.insertAdjacentElement(where,parsedText) </span><br><span class="line">     &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="elementFromPoint"><a href="#elementFromPoint" class="headerlink" title="elementFromPoint"></a>elementFromPoint</h3><p>Ie下有elementFromPoint方法，但是firefox没有，可以重写该方法</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Document.prototype.elementFromPoint = function(x, y) </span><br><span class="line">     &#123; </span><br><span class="line">     <span class="keyword">this</span>.addEventListener(<span class="string">"mousemove"</span>, <span class="keyword">this</span>.elementFromPoint__handler, <span class="literal">false</span>); </span><br><span class="line">     <span class="keyword">var</span> event = <span class="keyword">this</span>.createEvent(<span class="string">"MouseEvents"</span>); </span><br><span class="line">     <span class="keyword">var</span> box = <span class="keyword">this</span>.getBoxObjectFor(<span class="keyword">this</span>.documentElement); </span><br><span class="line">     <span class="keyword">var</span> screenDelta = &#123; x: box.screenX, y: box.screenY &#125;; </span><br><span class="line">     event.initMouseEvent(<span class="string">"mousemove"</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="keyword">this</span>.defaultView, <span class="number">0</span>, </span><br><span class="line">     x + screenDelta.x, y + screenDelta.y, x, y, </span><br><span class="line">     <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">null</span>); </span><br><span class="line">     <span class="keyword">this</span>.dispatchEvent(event); </span><br><span class="line">     <span class="keyword">this</span>.removeEventListener(<span class="string">"mousemove"</span>, <span class="keyword">this</span>.elementFromPoint__handler, <span class="literal">false</span>); </span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">this</span>.elementFromPoint__target; </span><br><span class="line">     &#125; </span><br><span class="line">     Document.prototype.elementFromPoint__handler = function (event) </span><br><span class="line">     &#123; </span><br><span class="line">     <span class="keyword">this</span>.elementFromPoint__target = event.explicitOriginalTarget;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (<span class="keyword">this</span>.elementFromPoint__target.nodetype == Node.TEXT_NODE) </span><br><span class="line">     <span class="keyword">this</span>.elementFromPoint__target = <span class="keyword">this</span>.elementFromPoint__target.parentNode;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (<span class="keyword">this</span>.elementFromPoint__target.nodeName.toUpperCase() == <span class="string">"HTML"</span> &amp;&amp; <span class="keyword">this</span>.documentElement.nodeName.toUpperCase() == <span class="string">"HTML"</span>) </span><br><span class="line">     <span class="keyword">this</span>.elementFromPoint__target = <span class="keyword">this</span>.getElementsByTagName(<span class="string">"BODY"</span>).item(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">     <span class="comment">//****added this code to check for textboxes and textareas </span></span><br><span class="line">     <span class="keyword">if</span> ( <span class="keyword">this</span>.elementFromPoint__target.nodeName==<span class="string">"#document"</span> )<span class="comment">//possible textbox or textarea </span></span><br><span class="line">     &#123; </span><br><span class="line">     rp = event.rangeParent; </span><br><span class="line">     alert(<span class="string">"event.rangeParent = "</span> + rp); </span><br><span class="line">     <span class="keyword">if</span> ( event.rangeParent.nodetype == Node.TEXT_NODE )<span class="comment">//textbox with a value </span></span><br><span class="line">     <span class="keyword">this</span>.elementFromPoint__target = event.rangeParent.parentNode.parentNode; </span><br><span class="line">     <span class="keyword">else</span> <span class="keyword">if</span> ( event.rangeParent.nodeName == <span class="string">'div'</span> )<span class="comment">//textbox without a value </span></span><br><span class="line">     <span class="keyword">this</span>.elementFromPoint__target = event.rangeParent.parentNode; </span><br><span class="line">     &#125; </span><br><span class="line">     <span class="comment">//****end. However this cause permission denied as the rangeParent object appears to be private!</span></span><br><span class="line"></span><br><span class="line">     event.preventdefault(); </span><br><span class="line">     event.stopPropagation(); </span><br><span class="line">     &#125; </span><br><span class="line">     Document.prototype.elementFromPoint__target = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="mousewheel事件"><a href="#mousewheel事件" class="headerlink" title="mousewheel事件"></a>mousewheel事件</h3><p>firefox 没有 mousewheel 事件。可以通过以下方法解决. </p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="keyword">n</span>=0; </span><br><span class="line">function mwEvent(<span class="keyword">e</span>) </span><br><span class="line">&#123; </span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">e</span>) <span class="keyword">e</span> = <span class="keyword">window</span>.event; </span><br><span class="line"><span class="keyword">if</span> ( <span class="keyword">e</span>.wheelDelta &lt;= 0 || <span class="keyword">e</span>.detail &gt; 0) &#123; <span class="keyword">n</span>++; &#125; </span><br><span class="line"><span class="keyword">else</span> &#123; <span class="keyword">n</span>--; &#125; </span><br><span class="line"><span class="keyword">window</span>.status=<span class="keyword">n</span>; </span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">if</span>(document.attachEvent)&#123; </span><br><span class="line">document.attachEvent(<span class="string">"onmousewheel"</span>,mwEvent); </span><br><span class="line">&#125;<span class="keyword">else</span>&#123; </span><br><span class="line"><span class="keyword">window</span>.addEventListener(<span class="string">"DOMMouseScroll"</span>, mwEvent, false); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="IE和FireFox的鼠标滚轮事件"><a href="#IE和FireFox的鼠标滚轮事件" class="headerlink" title="IE和FireFox的鼠标滚轮事件"></a>IE和FireFox的鼠标滚轮事件</h3><p>滚轮IE和Firefox的代码不一样：<br>IE是mousewheel事件，Firefox是DOMMouseScroll事件<br>事件属性，IE是event.wheelDelta，Firefox是event.detail<br>属性的方向值也不一样，IE向上滚 &gt; 0，Firefox向下滚 &gt; 0<br>//滚轮放大或缩小，基于Prototype 1.6 </p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scrollfunc = function(<span class="keyword">event</span>) &#123; </span><br><span class="line"><span class="keyword">var</span> direct = <span class="number">0</span>; </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">event</span>.wheelDelta) &#123; </span><br><span class="line">                direct = <span class="keyword">event</span>.wheelDelta &gt; <span class="number">0</span> ? <span class="number">1</span> : <span class="number">-1</span>; </span><br><span class="line">        &#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params"><span class="keyword">event</span>.detail</span>) </span>&#123; </span><br><span class="line">                direct = <span class="keyword">event</span>.detail &lt; <span class="number">0</span> ? <span class="number">1</span> : <span class="number">-1</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        zoom(direct); </span><br><span class="line">&#125;; </span><br><span class="line">Event.observe(document, <span class="string">'mousewheel'</span>, scrollfunc); </span><br><span class="line">Event.observe(document, <span class="string">'DOMMouseScroll'</span>, scrollfunc); <span class="comment">//firefox</span></span><br></pre></td></tr></table></figure>
+<h3 id="attachEvent方法"><a href="#attachEvent方法" class="headerlink" title="attachEvent方法"></a>attachEvent方法</h3><p>attachEvent方法解释:<br>attachEvent有2个参数,第一个参数是事件名,第二个参数是事件触发后所响应的方法. Firefox下解决方法是 </p>
+<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Object.prototype.attachEvent=<span class="function"><span class="keyword">function</span>(</span><span class="function"><span class="keyword">method</span>,<span class="title">func</span>) </span></span><br><span class="line">&#123; </span><br><span class="line"><span class="keyword">if</span>(!this[<span class="function"><span class="keyword">method</span>]) </span></span><br><span class="line">this[<span class="function"><span class="keyword">method</span>]=</span>func; </span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">this[<span class="function"><span class="keyword">method</span>]=</span>this[<span class="function"><span class="keyword">method</span>].<span class="title">attach</span>(</span>func); </span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="keyword">Function</span>.<span class="title">prototype</span>.<span class="title">attach</span>=</span><span class="function"><span class="keyword">function</span>(</span>func)&#123; </span><br><span class="line">var f=this; </span><br><span class="line"><span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(</span>)&#123; </span><br><span class="line">f(); </span><br><span class="line">func(); </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="title替代alt"><a href="#title替代alt" class="headerlink" title="title替代alt"></a>title替代alt</h3><p>在firefox和ie尽力都用title,alt在firefox下不起作用</p>
+<h3 id="iframe中元素访问"><a href="#iframe中元素访问" class="headerlink" title="iframe中元素访问"></a>iframe中元素访问</h3><p>IE：var d=document.getElementById(“iframeName”).document;<br>FF：var d=document.getElementById(“iframeName”).contentWindow.document;<br>在FF中IFRAME的”document”不叫document，改名叫contentDocument, “window”改名叫contentWindow。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20160430/article-30/" rel="next" title="HTML5本地存储">
+                <i class="fa fa-chevron-left"></i> HTML5本地存储
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20160616/js-cmd-amd/" rel="prev" title="JavaScript之关于AMD,CMD,CommonJS及UMD规范">
+                JavaScript之关于AMD,CMD,CommonJS及UMD规范 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avator.png"
+               alt="Eleanor" />
+          <p class="site-author-name" itemprop="name">Eleanor</p>
+          <p class="site-description motion-element" itemprop="description">WEB前端, JavaScript, HTML5, PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Event的问题"><span class="nav-number">1.</span> <span class="nav-text">Event的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#滤镜问题"><span class="nav-number">2.</span> <span class="nav-text">滤镜问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#innerText"><span class="nav-number">3.</span> <span class="nav-text">innerText</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#event-srcElement"><span class="nav-number">4.</span> <span class="nav-text">event.srcElement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#parentNode替代parentElement"><span class="nav-number">5.</span> <span class="nav-text">parentNode替代parentElement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类对象问题"><span class="nav-number">6.</span> <span class="nav-text">集合类对象问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义属性问题"><span class="nav-number">7.</span> <span class="nav-text">自定义属性问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#eval-“idName”-问题"><span class="nav-number">8.</span> <span class="nav-text">eval(“idName”)问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量名与某HTML对象ID相同的问题"><span class="nav-number">9.</span> <span class="nav-text">变量名与某HTML对象ID相同的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#const问题"><span class="nav-number">10.</span> <span class="nav-text">const问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#input-type属性问题"><span class="nav-number">11.</span> <span class="nav-text">input.type属性问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#event-x与event-y问题"><span class="nav-number">12.</span> <span class="nav-text">event.x与event.y问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window-location-href问题"><span class="nav-number">13.</span> <span class="nav-text">window.location.href问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模态和非模态窗口问题"><span class="nav-number">14.</span> <span class="nav-text">模态和非模态窗口问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#frame问题"><span class="nav-number">15.</span> <span class="nav-text">frame问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件委托方法"><span class="nav-number">16.</span> <span class="nav-text">事件委托方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cursor-hand-和-cursor-pointer"><span class="nav-number">17.</span> <span class="nav-text">cursor:hand 和 cursor:pointer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FireFox中类似-obj-style-height-imgObj-height-的语句无效"><span class="nav-number">18.</span> <span class="nav-text">FireFox中类似 obj.style.height = imgObj.height 的语句无效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于-table-标签的操作"><span class="nav-number">19.</span> <span class="nav-text">对于 table 标签的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#padding-问题"><span class="nav-number">20.</span> <span class="nav-text">padding 问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消除ul、ol等列表的缩进时"><span class="nav-number">21.</span> <span class="nav-text">消除ul、ol等列表的缩进时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS透明"><span class="nav-number">22.</span> <span class="nav-text">CSS透明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS圆角"><span class="nav-number">23.</span> <span class="nav-text">CSS圆角</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS双线凹凸边框"><span class="nav-number">24.</span> <span class="nav-text">CSS双线凹凸边框</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ie支持document-all-而firefox-不支持"><span class="nav-number">25.</span> <span class="nav-text">ie支持document.all 而firefox 不支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#eval-与window-execScript-执行脚本"><span class="nav-number">26.</span> <span class="nav-text">eval()与window.execScript()执行脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#e-button键值"><span class="nav-number">27.</span> <span class="nav-text">e.button键值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#insertAdjacentHTML-和-insertAdjacentText"><span class="nav-number">28.</span> <span class="nav-text">insertAdjacentHTML 和 insertAdjacentText</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#elementFromPoint"><span class="nav-number">29.</span> <span class="nav-text">elementFromPoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mousewheel事件"><span class="nav-number">30.</span> <span class="nav-text">mousewheel事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IE和FireFox的鼠标滚轮事件"><span class="nav-number">31.</span> <span class="nav-text">IE和FireFox的鼠标滚轮事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#attachEvent方法"><span class="nav-number">32.</span> <span class="nav-text">attachEvent方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#title替代alt"><span class="nav-number">33.</span> <span class="nav-text">title替代alt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iframe中元素访问"><span class="nav-number">34.</span> <span class="nav-text">iframe中元素访问</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eleanor</span>
+</div>
+
+<!--div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div -->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
