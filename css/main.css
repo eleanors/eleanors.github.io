@@ -1538,7 +1538,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffb65c;
+  background: #ff0b7a;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2558,4 +2558,13 @@ body {
 }
 .post-toc .nav-item {
   white-space: normal;
+}
+.post-toc ol a {
+  border: none;
+}
+hr {
+  height: 1px;
+  background-color: #eee;
+  background-image: none;
+  margin: 20px 0 40px;
 }

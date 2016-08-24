@@ -1,0 +1,747 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言
+之前在阅读《Javascript高级程序设计》「4.2执行环境及作用域的」时候，对相关的概念理解得并不是非常的透彻，只是懂了大概的意思。后来在看到「闭包」这一节时书中再一次提到了相关的概念，并且这些是充分理解闭包的必要背景知识，于是这一次我不能再略读了，必须彻彻底底地弄明白。啃了两天的相关文章、资料后，算是有一个比较清晰的认识了，现在记录下来，希望可以帮到同样对相关概念不熟悉的同学，也可以用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript之执行环境、执行环境栈、变量对象、活动对象">
+<meta property="og:url" content="http://yoursite.com/20160615/js-exection-context/index.html">
+<meta property="og:site_name" content="云淡风轻">
+<meta property="og:description" content="前言
+之前在阅读《Javascript高级程序设计》「4.2执行环境及作用域的」时候，对相关的概念理解得并不是非常的透彻，只是懂了大概的意思。后来在看到「闭包」这一节时书中再一次提到了相关的概念，并且这些是充分理解闭包的必要背景知识，于是这一次我不能再略读了，必须彻彻底底地弄明白。啃了两天的相关文章、资料后，算是有一个比较清晰的认识了，现在记录下来，希望可以帮到同样对相关概念不熟悉的同学，也可以用">
+<meta property="og:updated_time" content="2016-08-24T07:01:59.452Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript之执行环境、执行环境栈、变量对象、活动对象">
+<meta name="twitter:description" content="前言
+之前在阅读《Javascript高级程序设计》「4.2执行环境及作用域的」时候，对相关的概念理解得并不是非常的透彻，只是懂了大概的意思。后来在看到「闭包」这一节时书中再一次提到了相关的概念，并且这些是充分理解闭包的必要背景知识，于是这一次我不能再略读了，必须彻彻底底地弄明白。啃了两天的相关文章、资料后，算是有一个比较清晰的认识了，现在记录下来，希望可以帮到同样对相关概念不熟悉的同学，也可以用">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JavaScript之执行环境、执行环境栈、变量对象、活动对象 | 云淡风轻 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">云淡风轻</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript之执行环境、执行环境栈、变量对象、活动对象
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-15T13:56:19+08:00" content="2016-06-15">
+              2016-06-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
+<p>之前在阅读《Javascript高级程序设计》「4.2执行环境及作用域的」时候，对相关的概念理解得并不是非常的透彻，只是懂了大概的意思。后来在看到「闭包」这一节时书中再一次提到了相关的概念，并且这些是充分理解闭包的必要背景知识，于是这一次我不能再略读了，必须彻彻底底地弄明白。啃了两天的相关文章、资料后，算是有一个比较清晰的认识了，现在记录下来，希望可以帮到同样对相关概念不熟悉的同学，也可以用作自己日后的回顾和修正。</p>
+<p>注：Execution Context 可以被翻译为「执行上下文」或者「 执行环境」，文中可能都会用到，大家记住是一个东西就可以了。</p>
+<h3 id="什么是执行环境（Execution-Context）？"><a href="#什么是执行环境（Execution-Context）？" class="headerlink" title="什么是执行环境（Execution Context）？"></a>什么是执行环境（Execution Context）？</h3><p>“每当程序的执行流进入到一个可执行的代码时，就进入到了一个执行环境中。”</p>
+<p>执行环境是 ECMA-262 中用以区分不同的可执行代码的抽象概念<br>可执行代码的类型可以为分为：</p>
+<pre><code>* 全局代码：程序载入后的默认环境，是运行在程序级别的代码。
+* 函数代码：当执行流进入一个函数后。
+* Eval代码：Eval 内部的代码。
+</code></pre><h3 id="执行环境栈（Execution-Stack）"><a href="#执行环境栈（Execution-Stack）" class="headerlink" title="执行环境栈（Execution Stack）"></a>执行环境栈（Execution Stack）</h3><p>执行流依次进入的执行环境在逻辑上形成了一个栈，栈的底部永远是全局环境，栈的顶部则是处于活动状态当前的执行环境(浏览器总是执行处于栈顶的上下文)。当执行流进入一个函数时，函数的环境就会被推入这个环境栈中，当函数执行完毕之后，栈将这个执行环境弹出，然后把控制权返回给之前的执行环境。这样实现的原因是由于 Javascript 解释器是单线程的，也就是同一时刻只能发生一件事情，其他等待执行的上下文或事件就会在这个环境栈中排队等待。值得注意的一点是：每次函数的调用都会创建一个执行环境压入栈中，无论是函数内部的函数、还是递归调用等。</p>
+<p>我们用数组来表示执行环境栈：</p>
+<pre><code>ECStack = [];
+</code></pre><p>来看下面这个例子：</p>
+<pre><code>(function foo(i){
+  if(i === 3){
+    return console.log(&quot;Well,the current FunctionContext is finished.&quot;);
+  }
+  else{
+    foo(++i);
+  }
+})(1);
+</code></pre><p>这个函数会被调用3次，分别是 i = 1,i = 2,i = 3 的时候，每次被调用的时候都会创建一个执行上下文然后压入栈中，执行完毕之后再被弹出，最后将控制权交给栈底的全局环境。当第三次调用 foo 函数也就是 i = 3 时，ECStack 状态如下：</p>
+<pre><code>ECStack = 
+[
+   //栈顶
+   FunctionContext - foo(3);
+   FunctionContext - foo(2);
+   FunctionContext - foo(1);
+   GlobalContext
+   //栈底
+]
+</code></pre><h3 id="变量对象-（Variable-Object）"><a href="#变量对象-（Variable-Object）" class="headerlink" title="变量对象 （Variable Object）"></a>变量对象 （Variable Object）</h3><p>每一个执行环境都有一个与之相关的变量对象，其中存储着上下文中声明的：</p>
+<p>变量 VariableDeclaration VD<br>函数 FunctionDeclaration FD<br>形式参数 formal parameters<br>我们可以用一个对象来表示变量对象：</p>
+<pre><code>VO = {
+  // 执行上下文中声明的变量、函数、形式参数
+}
+</code></pre><h3 id="不同执行环境下的变量对象"><a href="#不同执行环境下的变量对象" class="headerlink" title="不同执行环境下的变量对象"></a>不同执行环境下的变量对象</h3><p>变量对象是一个抽象的概念，在进入具体的执行上下文时，变量对象在具体实现上也会有相应地差别。</p>
+<pre><code>AbstractVO (generic behavior of the variable instantiation process)
+
+║
+╠══&gt; GlobalContextVO
+║      
+       (VO === this === global)
+║
+╚══&gt; FunctionContextVO
+
+       (VO === AO, &lt;arguments&gt; object and &lt;formal parameters&gt; are added)
+</code></pre><h4 id="全局上下文中的变量对象"><a href="#全局上下文中的变量对象" class="headerlink" title="全局上下文中的变量对象"></a>全局上下文中的变量对象</h4><p>全局对象是一个在进入任何执行上下文前就创建出来的对象；此对象以单例形式存在；它的属性在程序任何地方都可以直接访问，其生命周期随着程序的结束而终止。</p>
+<p>全局对象的属性在任何地方都可以被访问到，可以通过 this 或者 DOM 中的 Window 对象来访问。全局对象中的变量对象就是全局对象本身，理解这一点很重要，正是因为这个原因才使得可以通过全局对象的属性来访问在全局上下文中声明的变量。</p>
+<h4 id="函数上下文中的变量对象"><a href="#函数上下文中的变量对象" class="headerlink" title="函数上下文中的变量对象"></a>函数上下文中的变量对象</h4><p>当函数被调用时，一个特殊的对象——活动对象就随之创建了。变量对象通过函数的 arguments 对象来初始化，arguments 对象是活动对象上的属性，包含了以下属性：</p>
+<pre><code>callee 对当前函数的引用
+length 传入的实参个数
+properties-indexes 参数对应的索引值，相应的值和实际传入的参数值是共享的，但不并是存储在同一个地方的
+</code></pre><h3 id="执行环境的具体细节"><a href="#执行环境的具体细节" class="headerlink" title="执行环境的具体细节"></a>执行环境的具体细节</h3><p>我们同样也可以用一个对象来表示执行上下文：</p>
+<pre><code>ExecutionContextObj = {
+    scopeChain: { 变量对象（variableObject）+ 所有父执行上下文的变量对象 }, 
+    variableObject: { &lt;arguments&gt;对象，内部变量声明和函数声明 }, 
+    this:{}
+}
+</code></pre><p>每当一个函数被调用的时候，就会随之创建一个执行上下文，在 Javascript 解释器内部处理执行上下文有两个步骤：</p>
+<blockquote>
+<p>第一步：创建阶段<br>   （在函数调用之后，函数体执行之前），解释器扫描传递给函数的参数或arguments，本地函数声明和本地变量声明，并创建executionContextObj对象。扫描的结果将完成变量对象的创建<br>*创建作用域链 （Scope Chain\</p>
+</blockquote>
+<p>扫描上下文中声明的形式参数、函数以及变量，并依次填充变量对象的属性</p>
+<p>函数的形参：形参作为属性，对应的实参作为值。对于没有实参的形参，值为undefined。</p>
+<p>函数声明（FunctionDeclaration FD）:由函数对象创建出相应的名、值，名就是函数名、值就是函数体。如果变量对象已经包含了同名的属性，就会替换掉它的值。<br>变量声明（VariableDeclaration）:属性名是变量名，值初始化为 undefined。如果变量名和已经存在的属性同名，不会影响到同名的属性。<br>注意：函数表达式（FunctionExpression FE）不会成为变量对象的属性，也就是说函数表达式不会影响到变量对象。</p>
+<p>求出上下文”this”的值</p>
+<blockquote>
+<p>第二步：代码执行阶段</p>
+</blockquote>
+<p>这一阶段就会给第一步中初始值为 undefined 的变量赋上相应的值<br>我们来看下面这个例子：</p>
+<pre><code>(function foo(x,y,z){
+
+  var a = 1;
+  var b = function(){};
+  function c(){}
+  (function d(){})();
+
+})(10，20);
+</code></pre><p>函数调用后，相应的executionContextObj如下：</p>
+<blockquote>
+<p>第一阶段</p>
+</blockquote>
+<pre><code>executionContextObj = {
+    scopeChain:{...},
+    VO: {
+        arguments:{
+            x:10,
+            y:20,
+            Z:undefined,
+            length:2,//这里是实际传入参数的个数
+            callee:pointer to function foo()
+          }
+      a:undefined,
+      b:undefined,
+      c:pointer to function c()
+    },
+    this:{...}
+}
+</code></pre><blockquote>
+<p>第二阶段：</p>
+</blockquote>
+<pre><code>executionContextObj = {
+    scopeChain:{...},
+    VO: {
+        arguments:{
+            x:10,
+            y:20,
+            Z:undefined,
+            length:2,//这里是实际传入参数的个数
+            callee:pointer to function foo()
+        }
+        a:1,
+        b:pointer to function b(),
+        c:pointer to function c()
+    },
+    this:{...}
+}
+</code></pre><p>在第二阶段，就会为局部变量 a 、b 赋值，注意到 d 并没有在变量对象中，正如上文中提到的那样，函数表达式是不会影响变量对象的，所以在作用域中任何一个位置引用d都会出现”d is not defined”的错误。</p>
+<p>现在你应该非常清楚JS中的变量、函数声明提升是怎么回事了吧。</p>
+<p>举个例子吧：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">typeof</span> x);<span class="comment">//"function"</span></span><br><span class="line">  <span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(y);<span class="comment">//undefined 而不是 "y is not defined" ,这就是变量声明提升！</span></span><br><span class="line">  <span class="keyword">var</span> y = <span class="number">20</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">typeof</span> x);<span class="comment">//"number"</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">x</span>(<span class="params"></span>)</span>&#123;&#125; </span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>为什么第一次打印x的类型是函数，第二次打印x的类型又是数字呢。这是因为，根据创建上下文时的规则，函数调用之后会按照顺序依次把函数参数、函数声明、变量声明填充为VO的属性，并且填充变量声明的时候如果同名是不会造成任何影响的，x的值还是函数。</p>
+<p>在进入上下文阶段，VO的状态：</p>
+<pre><code>VO = {
+  x:pointer to function x()
+}
+//发现var x = 10;
+//如果函数&quot;x&quot;还未定义,则 &quot;x&quot; 的值为undefined, 
+//但是，在这个例子中
+//变量声明并不会影响同名的值为函数的x
+</code></pre><p>VO[‘x’] 的值仍未改变<br>在代码执行阶段，VO的状态：</p>
+<pre><code>VO[&apos;x&apos;] = 10;
+</code></pre><p>这一阶段，局部变量 x 被赋值，此时之前同名的值为函数的 x 就会被覆盖，大家注意声明和赋值！！第一阶段，局部变量声明同名不会影响；第二阶段局部变量赋值就会产生影响了，毕竟人家是最后赋值的嘛。</p>
+<p>最后，再来说说关于变量声明的问题：</p>
+<p>在《Javascript高级程序设计》4.2.2一节当中有这么一句话：”如果初始化变量时没有使用var声明，该变量会自动被添加到全局环境中。” 首先，我们应该先明确一点，使用var关键字是声明变量的唯一方式。如果没有var 的话，例如 a = 5 ，a 就将作为全局对象的一个属性，而不是一个变量。</p>
+<p>区别如下：</p>
+<pre><code>alert(x); //&quot;x&quot; is not defined
+alert(b); //&quot;undefined
+
+x = 10;
+var y = 20;
+</code></pre><p>进入上下文后第一阶段：</p>
+<pre><code>VO = {
+  x:10;
+}
+</code></pre><p>VO 中并没有y的原因是，y 并不是变量。另外还要注意的一点就是，没有通过 var 声明的属性可以通过delete操作符删除，而通过var声明的变量就不可以。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20160615/js-call-by-share/" rel="next" title="JavaScript之值的访问与参数传递问题">
+                <i class="fa fa-chevron-left"></i> JavaScript之值的访问与参数传递问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20160616/js-cmd-amd/" rel="prev" title="JavaScript之关于AMD,CMD,CommonJS及UMD规范">
+                JavaScript之关于AMD,CMD,CommonJS及UMD规范 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avator.png"
+               alt="Eleanor" />
+          <p class="site-author-name" itemprop="name">Eleanor</p>
+          <p class="site-description motion-element" itemprop="description">WEB前端, JavaScript, HTML5, PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是执行环境（Execution-Context）？"><span class="nav-number">2.</span> <span class="nav-text">什么是执行环境（Execution Context）？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行环境栈（Execution-Stack）"><span class="nav-number">3.</span> <span class="nav-text">执行环境栈（Execution Stack）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量对象-（Variable-Object）"><span class="nav-number">4.</span> <span class="nav-text">变量对象 （Variable Object）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不同执行环境下的变量对象"><span class="nav-number">5.</span> <span class="nav-text">不同执行环境下的变量对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局上下文中的变量对象"><span class="nav-number">5.1.</span> <span class="nav-text">全局上下文中的变量对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数上下文中的变量对象"><span class="nav-number">5.2.</span> <span class="nav-text">函数上下文中的变量对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行环境的具体细节"><span class="nav-number">6.</span> <span class="nav-text">执行环境的具体细节</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eleanor</span>
+</div>
+
+<!--div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div -->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

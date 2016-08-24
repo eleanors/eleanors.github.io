@@ -249,6 +249,128 @@
             
               
                 
+                <a class="post-title-link" href="/20160622/js-oop-ocp/" itemprop="url">
+                  JavaScript之五大原则-开闭原则
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-22T15:45:21+08:00" content="2016-06-22">
+              2016-06-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          前言
+本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第2篇，开闭原则OCP（The Open/Closed Principle ）。
+开闭原则的描述是：
+
+Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification.  软件实体（类，模块，方法等等）应当对扩展开放，对修改关闭，即软件实体应
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/20160622/js-oop-ocp/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/20160622/js-oop-isp/" itemprop="url">
                   JavaScript之五大原则-接口隔离原则
                 </a>
@@ -495,8 +617,8 @@ A. High-level modules should not depend on low-level modules. Both should depend
             
               
                 
-                <a class="post-title-link" href="/20160622/js-oop-srp/" itemprop="url">
-                  JavaScript之五大原则-单一职责
+                <a class="post-title-link" href="/20160622/js-oop-lsp/" itemprop="url">
+                  JavaScript之五大原则-里氏替换原则
                 </a>
               
             
@@ -559,142 +681,17 @@ A. High-level modules should not depend on low-level modules. Both should depend
         
           
           前言
-Bob大叔提出并发扬了S.O.L.I.D五大原则，用来更好地进行面向对象编程，五大原则分别是：
-1、The Single Responsibility Principle（单一职责SRP）
+里氏替换原则的描述是：
 
-2、The Open/Closed Principle（开闭原则OCP）
+Subtypes must be substitutable for their base types.  派生类型必须可以替换它的基类型。
 
-3、The Liskov Substitution Principle（里氏替换原则LSP）
-
-4、The Interface Segregation Principle（接口分离原则ISP）
-
-5、The
+在面向对象编程里，继承提供了一个机制让子类共享基类的代码，这是通过在基类型里封装通用的数据和行为来实现的，然后以基类型来声明更详细的子类型，为了应用里氏替换原则，继承子类型需要在语义上等价于基类型里的期望行为。
+为了来更好的理解，请参考如下代码：
+1234567891011121314151617181
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/20160622/js-oop-srp/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/20160622/js-oop-ocp/" itemprop="url">
-                  JavaScript之五大原则-开闭原则
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-22T15:45:21+08:00" content="2016-06-22">
-              2016-06-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/category/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          前言
-本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第2篇，开闭原则OCP（The Open/Closed Principle ）。
-开闭原则的描述是：
-
-Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification.  软件实体（类，模块，方法等等）应当对扩展开放，对修改关闭，即软件实体应
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/20160622/js-oop-ocp/#more" rel="contents">
+            <a class="btn" href="/20160622/js-oop-lsp/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -769,7 +766,7 @@ Software entities (classes, modules, functions, etc.) should be open for extensi
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

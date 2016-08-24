@@ -374,126 +374,6 @@
             
               
                 
-                <a class="post-title-link" href="/20160618/js-extend-copy/" itemprop="url">
-                  JavaScript之继承与拷贝
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-18T18:14:03+08:00" content="2016-06-18">
-              2016-06-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/category/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          JavaScript 继承与拷贝本文讨论JavaScript中如何实现继承关系，以及如何拷贝对象。下面，我们分别探讨4种继承方法。谈完继承方法后，再谈论对象的拷贝。
-需要提前说明的是，后文需要继承的构造器函数是：
-123456var Animal = function(name)&#123;    this.name = name;&#125;;Animal.prototype.jump = function()&#123;    console.log('jumped');
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/20160618/js-extend-copy/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/20160616/js-cmd-amd/" itemprop="url">
                   JavaScript之关于AMD,CMD,CommonJS及UMD规范
                 </a>
@@ -615,8 +495,8 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
             
               
                 
-                <a class="post-title-link" href="/20160614/js-compatible/" itemprop="url">
-                  JavaScript之IE和Firefox的兼容问题
+                <a class="post-title-link" href="/20160615/js-exection-context/" itemprop="url">
+                  JavaScript之执行环境、执行环境栈、变量对象、活动对象
                 </a>
               
             
@@ -629,8 +509,8 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-14T16:15:41+08:00" content="2016-06-14">
-              2016-06-14
+            <time itemprop="dateCreated" datetime="2016-06-15T13:56:19+08:00" content="2016-06-15">
+              2016-06-15
             </time>
           </span>
 
@@ -678,12 +558,135 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
       
         
           
-          Event的问题在ie中我们可以直接使用event变量，但是在firefox下由于event是局部变量，firefox下我们可以事件绑定到元素上 例如&lt;input type=&quot;button&quot; onclick=&quot;doEvent (event)&quot;&gt;为了同时兼容ie和firefox 通常在函数种通过以下代码获得事件。 
-12345var theEvent = window.event||e; var srcElement = th
+          前言
+之前在阅读《Javascript高级程序设计》「4.2执行环境及作用域的」时候，对相关的概念理解得并不是非常的透彻，只是懂了大概的意思。后来在看到「闭包」这一节时书中再一次提到了相关的概念，并且这些是充分理解闭包的必要背景知识，于是这一次我不能再略读了，必须彻彻底底地弄明白。啃了两天的相关文章、资料后，算是有一个比较清晰的认识了，现在记录下来，希望可以帮到同样对相关概念不熟悉的同学，也可以用作自己日后的回顾和修正。
+注：Execution Context 可以被翻译为「
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/20160614/js-compatible/#more" rel="contents">
+            <a class="btn" href="/20160615/js-exection-context/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/20160615/js-call-by-share/" itemprop="url">
+                  JavaScript之值的访问与参数传递问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-15T10:56:19+08:00" content="2016-06-15">
+              2016-06-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          数据类型在 javascript 中数据类型可以分为两类：
+
+   原始数据类型值 primitive type，比如Undefined,Null,Boolean,Number,String。    引用类型值，也就是对象类型 Object type,比如Object,Array,Function,Date等。
+
+声明变量时不同的内存分配原始值：存储在栈（stack）中的简单数据段，也就是说，它们的值直接存储在变量访问的位置。这是因为这些原始类型占据的空间是固定的，所以可将他
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/20160615/js-call-by-share/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -758,7 +761,7 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
