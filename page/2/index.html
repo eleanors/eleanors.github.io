@@ -249,8 +249,8 @@
             
               
                 
-                <a class="post-title-link" href="/20160618/js-extend-copy/" itemprop="url">
-                  JavaScript之继承与拷贝
+                <a class="post-title-link" href="/20160622/js-oop-isp/" itemprop="url">
+                  JavaScript之五大原则-接口隔离原则
                 </a>
               
             
@@ -263,8 +263,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-18T18:14:03+08:00" content="2016-06-18">
-              2016-06-18
+            <time itemprop="dateCreated" datetime="2016-06-22T15:45:21+08:00" content="2016-06-22">
+              2016-06-22
             </time>
           </span>
 
@@ -312,13 +312,16 @@
       
         
           
-          JavaScript 继承与拷贝本文讨论JavaScript中如何实现继承关系，以及如何拷贝对象。下面，我们分别探讨4种继承方法。谈完继承方法后，再谈论对象的拷贝。
-需要提前说明的是，后文需要继承的构造器函数是：
-123456var Animal = function(name)&#123;    this.name = name;&#125;;Animal.prototype.jump = function()&#123;    console.log('jumped');
+          前言本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第4篇，接口隔离原则ISP（The Interface Segregation Principle）。
+接口隔离原则的描述是：
+
+Clients should not be forced to depend on methods they do not use. 不应该强迫客户依赖于它们不用的方法。
+
+当用户依赖的接口方法即便只被别的用户使用而自己不用，那它也得实现这些接口，换而言之，一个用户依赖了
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/20160618/js-extend-copy/#more" rel="contents">
+            <a class="btn" href="/20160622/js-oop-isp/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -369,8 +372,8 @@
             
               
                 
-                <a class="post-title-link" href="/20160616/js-cmd-amd/" itemprop="url">
-                  JavaScript之关于AMD,CMD,CommonJS及UMD规范
+                <a class="post-title-link" href="/20160622/js-oop-dip/" itemprop="url">
+                  JavaScript之五大原则-依赖倒置原则
                 </a>
               
             
@@ -383,8 +386,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-16T14:55:41+08:00" content="2016-06-16">
-              2016-06-16
+            <time itemprop="dateCreated" datetime="2016-06-22T15:45:21+08:00" content="2016-06-22">
+              2016-06-22
             </time>
           </span>
 
@@ -432,14 +435,16 @@
       
         
           
-          Javascript的组件生态在最近几年的发展很给力，我们的可选性更加广泛了。这本是一件好事，但是当多个第三方Javascript在一起混合使用的时候，我们可能会遇到一个很尴尬的问题，那就是不是所有的组件都能在一起很愉快的玩耍的。
-为了解决这个问题，两种竞争关系的前端模块规范（AMD和CommonJS）问世了。他们规定开发者们采用一种约定好的模式来写代码，以避免污染整个生态系统。
+          前言
+本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第5篇，依赖倒置原则LSP（The Dependency Inversion Principle ）。
+依赖倒置原则
+依赖倒置原则的描述是：
 
-AMD规范AMD规范，全称”Asynchronous Module Definition”，称
+A. High-level modules should not depend on low-level modules. Both should depend on abstractions.  高层模块不应该依赖于低层模块，二者都应该依赖于抽象  B.
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/20160616/js-cmd-amd/#more" rel="contents">
+            <a class="btn" href="/20160622/js-oop-dip/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -490,8 +495,8 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
             
               
                 
-                <a class="post-title-link" href="/20160614/js-compatible/" itemprop="url">
-                  JavaScript之IE和Firefox的兼容问题
+                <a class="post-title-link" href="/20160622/js-oop-srp/" itemprop="url">
+                  JavaScript之五大原则-单一职责
                 </a>
               
             
@@ -504,8 +509,8 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-14T16:15:41+08:00" content="2016-06-14">
-              2016-06-14
+            <time itemprop="dateCreated" datetime="2016-06-22T15:45:21+08:00" content="2016-06-22">
+              2016-06-22
             </time>
           </span>
 
@@ -553,12 +558,21 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
       
         
           
-          Event的问题在ie中我们可以直接使用event变量，但是在firefox下由于event是局部变量，firefox下我们可以事件绑定到元素上 例如&lt;input type=&quot;button&quot; onclick=&quot;doEvent (event)&quot;&gt;为了同时兼容ie和firefox 通常在函数种通过以下代码获得事件。 
-12345var theEvent = window.event||e; var srcElement = th
+          前言
+Bob大叔提出并发扬了S.O.L.I.D五大原则，用来更好地进行面向对象编程，五大原则分别是：
+1、The Single Responsibility Principle（单一职责SRP）
+
+2、The Open/Closed Principle（开闭原则OCP）
+
+3、The Liskov Substitution Principle（里氏替换原则LSP）
+
+4、The Interface Segregation Principle（接口分离原则ISP）
+
+5、The
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/20160614/js-compatible/#more" rel="contents">
+            <a class="btn" href="/20160622/js-oop-srp/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -609,8 +623,8 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
             
               
                 
-                <a class="post-title-link" href="/20160430/article-30/" itemprop="url">
-                  HTML5本地存储
+                <a class="post-title-link" href="/20160622/js-oop-ocp/" itemprop="url">
+                  JavaScript之五大原则-开闭原则
                 </a>
               
             
@@ -623,11 +637,30 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-30T22:29:05+08:00" content="2016-04-30">
-              2016-04-30
+            <time itemprop="dateCreated" datetime="2016-06-22T15:45:21+08:00" content="2016-06-22">
+              2016-06-22
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -653,11 +686,15 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
       
         
           
-          
-          
+          前言
+本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第2篇，开闭原则OCP（The Open/Closed Principle ）。
+开闭原则的描述是：
+
+Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification.  软件实体（类，模块，方法等等）应当对扩展开放，对修改关闭，即软件实体应
+          ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/20160430/article-30/#more" rel="contents">
+            <a class="btn" href="/20160622/js-oop-ocp/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -691,7 +728,7 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -732,7 +769,7 @@ AMD规范AMD规范，全称”Asynchronous Module Definition”，称
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

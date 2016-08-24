@@ -611,8 +611,8 @@ How about the browse support now?从表中可以看到，尽管有很大一部�
             
               
                 
-                <a class="post-title-link" href="/20160620/css-retina-lines/" itemprop="url">
-                  Retina屏的移动设备如何实现真正1px的线？
+                <a class="post-title-link" href="/20160622/js-oop-lsp/" itemprop="url">
+                  JavaScript之五大原则-里氏替换原则
                 </a>
               
             
@@ -625,8 +625,8 @@ How about the browse support now?从表中可以看到，尽管有很大一部�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-20T22:29:05+08:00" content="2016-06-20">
-              2016-06-20
+            <time itemprop="dateCreated" datetime="2016-06-22T15:45:21+08:00" content="2016-06-22">
+              2016-06-22
             </time>
           </span>
 
@@ -639,8 +639,8 @@ How about the browse support now?从表中可以看到，尽管有很大一部�
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/category/移动端/" itemprop="url" rel="index">
-                    <span itemprop="name">移动端</span>
+                  <a href="/category/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
                   </a>
                 </span>
 
@@ -674,18 +674,18 @@ How about the browse support now?从表中可以看到，尽管有很大一部�
       
         
           
-          
-前些日子总被人问起 iOS Retina 屏，设置 1px 边框，实际显示 2px，如何解决？原来一直没在意，源于自己根本不是像素眼……今天仔细瞅了瞅原生实现的边框和CSS设置的边框，确实差距不小……
+          前言
+里氏替换原则的描述是：
 
-效果图预览上图是原生实现，下图是 CSS 边框，手机上对比更加明显
+Subtypes must be substitutable for their base types.  派生类型必须可以替换它的基类型。
 
-
-然后，如何解决呢？搜遍整个谷歌，发现好多人早已开始研究解决方案了。到底有哪些方案，到底好不好用呢？试过才知道，把我试过的结论记录一下。
-有说用 0.5px 解决的在2014年的 WWDC，”设计响应的W
+在面向对象编程里，继承提供了一个机制让子类共享基类的代码，这是通过在基类型里封装通用的数据和行为来实现的，然后以基类型来声明更详细的子类型，为了应用里氏替换原则，继承子类型需要在语义上等价于基类型里的期望行为。
+为了来更好的理解，请参考如下代码：
+1234567891011121314151617181
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/20160620/css-retina-lines/#more" rel="contents">
+            <a class="btn" href="/20160622/js-oop-lsp/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -719,7 +719,7 @@ How about the browse support now?从表中可以看到，尽管有很大一部�
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -760,7 +760,7 @@ How about the browse support now?从表中可以看到，尽管有很大一部�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

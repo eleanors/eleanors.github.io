@@ -1,0 +1,655 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言
+里氏替换原则的描述是：
+
+Subtypes must be substitutable for their base types.  派生类型必须可以替换它的基类型。
+
+在面向对象编程里，继承提供了一个机制让子类共享基类的代码，这是通过在基类型里封装通用的数据和行为来实现的，然后以基类型来声明更详细的子类型，为了应用里氏替换原则，继承子类型需要在语义上等价于基类型里的期望行为。
+为了来更好的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript之五大原则-里氏替换原则">
+<meta property="og:url" content="http://yoursite.com/20160622/js-oop-lsp/index.html">
+<meta property="og:site_name" content="云淡风轻">
+<meta property="og:description" content="前言
+里氏替换原则的描述是：
+
+Subtypes must be substitutable for their base types.  派生类型必须可以替换它的基类型。
+
+在面向对象编程里，继承提供了一个机制让子类共享基类的代码，这是通过在基类型里封装通用的数据和行为来实现的，然后以基类型来声明更详细的子类型，为了应用里氏替换原则，继承子类型需要在语义上等价于基类型里的期望行为。
+为了来更好的">
+<meta property="og:updated_time" content="2016-08-21T07:04:15.419Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript之五大原则-里氏替换原则">
+<meta name="twitter:description" content="前言
+里氏替换原则的描述是：
+
+Subtypes must be substitutable for their base types.  派生类型必须可以替换它的基类型。
+
+在面向对象编程里，继承提供了一个机制让子类共享基类的代码，这是通过在基类型里封装通用的数据和行为来实现的，然后以基类型来声明更详细的子类型，为了应用里氏替换原则，继承子类型需要在语义上等价于基类型里的期望行为。
+为了来更好的">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JavaScript之五大原则-里氏替换原则 | 云淡风轻 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">云淡风轻</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript之五大原则-里氏替换原则
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-22T15:45:21+08:00" content="2016-06-22">
+              2016-06-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><hr>
+<p>里氏替换原则的描述是：</p>
+<blockquote>
+<p>Subtypes must be substitutable for their base types.<br>  派生类型必须可以替换它的基类型。</p>
+</blockquote>
+<p>在面向对象编程里，继承提供了一个机制让子类共享基类的代码，这是通过在基类型里封装通用的数据和行为来实现的，然后以基类型来声明更详细的子类型，为了应用里氏替换原则，继承子类型需要在语义上等价于基类型里的期望行为。</p>
+<p>为了来更好的理解，请参考如下代码：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Vehicle</span><span class="params">(my)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> my = my || &#123;&#125;;</span><br><span class="line">    my.speed = <span class="number">0</span>;</span><br><span class="line">    my.running = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.speed = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> my.speed;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">this</span>.start = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        my.running = <span class="literal">true</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">this</span>.stop = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        my.running = <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">this</span>.accelerate = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        my.speed++;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">this</span>.decelerate = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        my.speed--;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">this</span>.state = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!my.running) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"parked"</span>;<span class="comment">//暂停</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (my.running &amp;&amp; my.speed) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"moving"</span>;<span class="comment">//移动中</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (my.running) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"idle"</span>;<span class="comment">//闲置</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码我们定义了一个Vehicle函数，其构造函数为vehicle对象提供了一些基本的操作，我们来想想如果当前函数当前正运行在服务客户的产品环境上，如果现在需要添加一个新的构造函数来实现加快移动的vehicle。思考以后，我们写出了如下代码：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">FastVehicle</span><span class="params">(my)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> my = my || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> that = <span class="keyword">new</span> Vehicle(my);</span><br><span class="line">    that.accelerate = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        my.speed += <span class="number">3</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> that;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在浏览器的控制台我们都测试了，所有的功能都是我们的预期，没有问题，FastVehicle的速度增快了3倍，而且继承他的方法也是按照我们的预期工作。此后，我们开始部署这个新版本的类库到产品环境上，可是我们却接到了新的构造函数导致现有的代码不能支持执行了，下面的代码段揭示了这个问题：</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var maneuver = function(vehicle) &#123;</span><br><span class="line">    write(vehicle.<span class="keyword">state</span>());</span><br><span class="line">    vehicle.start();</span><br><span class="line">    write(vehicle.<span class="keyword">state</span>());</span><br><span class="line">    vehicle.accelerate();</span><br><span class="line">    write(vehicle.<span class="keyword">state</span>());</span><br><span class="line">    write(vehicle.speed());</span><br><span class="line">    vehicle.decelerate();</span><br><span class="line">    write(vehicle.speed());</span><br><span class="line">    if (vehicle.<span class="keyword">state</span>() != <span class="string">"idle"</span>) &#123;</span><br><span class="line">        throw <span class="string">"The vehicle is still moving!"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    vehicle.stop();</span><br><span class="line">    write(vehicle.<span class="keyword">state</span>());</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>根据上面的代码，我们看到抛出的异常是”The vehicle is still moving!”(加速一次、减速一次但是仍然没有停止)，这是因为写这段代码的作者一直认为加速（accelerate）和减速（decelerate）的数字是一样的。但FastVehicle的代码和Vehicle的代码并不是完全能够替换掉的。因此，FastVehicle违反了里氏替换原则。</p>
+<p>在这点上，客户端不能老假定vehicle都是按照这样的规则来做，里氏替换原则(LSP)的妨碍（译者注：就是妨碍实现LSP的代码）不是基于我们所想的继承子类应该在行为里确保更新代码，而是这样的更新是否能在当前的期望中得到实现。</p>
+<p>上述代码这个case，解决这个不兼容的问题需要在vehicle类库或者客户端调用代码上进行一点重新设计，或者两者都要改。</p>
+<h4 id="减少LSP妨碍"><a href="#减少LSP妨碍" class="headerlink" title="减少LSP妨碍"></a>减少LSP妨碍</h4><hr>
+<p>那么，我们如何避免LSP妨碍？不幸的话：并不是一直都是可以做到的。我们这里有几个策略我们处理这个事情</p>
+<h5 id="契约（Contracts）"><a href="#契约（Contracts）" class="headerlink" title="契约（Contracts）"></a>契约（Contracts）</h5><p>处理LSP过分妨碍的一个策略是使用契约，契约清单有2种形式：执行说明书（executable specifications）和错误处理，在执行说明书里，一个详细类库的契约也包括一组自动化测试，而错误处理是在代码里直接处理的，例如在前置条件，后置条件，常量检查等，可以从Bertrand Miller的大作《契约设计》中查看这个技术。虽然自动化测试和契约设计不在本篇文字的范围内，但当我们用的时候我还是推荐如下内容：</p>
+<pre><code>检查使用测试驱动开发（Test-Driven Development）来指导你代码的设计
+
+设计可重用类库的时候可随意使用契约设计技术
+</code></pre><p>对于你自己要维护和实现的代码，使用契约设计趋向于添加很多不必要的代码，如果你要控制输入，添加测试是非常有必要的，如果你是类库作者，使用契约设计，你要注意不正确的使用方法以及让你的用户使之作为一个测试工具。</p>
+<h5 id="避免继承"><a href="#避免继承" class="headerlink" title="避免继承"></a>避免继承</h5><p>避免LSP妨碍的另外一个测试是：如果可能的话，尽量不用继承，在Gamma的大作《Design Patterns – Elements of Reusable Object-Orineted Software》中，我们可以看到如下建议：</p>
+<blockquote>
+<p>Favor object composition over class inheritance<br>  尽量使用对象组合而不是类继承</p>
+</blockquote>
+<p>有些书里讨论了组合比继承好的唯一作用是静态类型，基于类的语言（例如，在运行时可以改变行为），与JavaScript相关的一个问题是耦合，当使用继承的时候，继承子类型和他们的基类型耦合在一起了，就是说及类型的改变会影响到继承子类型。组合倾向于对象更小化，更容易想静态和动态语言语言维护。</p>
+<h4 id="与行为有关，而不是继承"><a href="#与行为有关，而不是继承" class="headerlink" title="与行为有关，而不是继承"></a>与行为有关，而不是继承</h4><hr>
+<p>到现在，我们讨论了和继承上下文在内的里氏替换原则，指示出JavaScript的面向对象。不过，里氏替换原则（LSP）的本质不是真的和继承有关，而是行为兼容性。JavaScript是一个动态语言，一个对象的契约行为不是对象的类型决定的，而是对象期望的功能决定的。里氏替换原则的初始构想是作为继承的一个原则指南，等价于对象设计中的隐式接口。</p>
+<p>举例来说，让我们来看一下Robert C. Martin的大作《敏捷软件开发 原则、模式与实践》中的一个矩形类型：</p>
+<h5 id="矩形例子"><a href="#矩形例子" class="headerlink" title="矩形例子"></a>矩形例子</h5><p>考虑我们有一个程序用到下面这样的一个矩形对象:</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> <span class="built_in">rectangle</span> = &#123;</span><br><span class="line">    <span class="built_in">length</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="built_in">width</span>: <span class="number">0</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>过后，程序有需要一个正方形，由于正方形就是一个长(length)和宽(width)都一样的特殊矩形，所以我们觉得创建一个正方形代替矩形。我们添加了length和width属性来匹配矩形的声明，但我们觉得使用属性的getters/setters一般我们可以让length和width保存同步，确保声明的是一个正方形：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> square = &#123;&#125;;</span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> length = <span class="number">0</span>, width = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 注意defineProperty方式是262-5版的新特性</span></span><br><span class="line">    Object.defineProperty(square, <span class="string">"length"</span>, &#123;</span><br><span class="line">        <span class="keyword">get</span>: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> length; &#125;,</span><br><span class="line">        <span class="keyword">set</span>: <span class="function"><span class="keyword">function</span><span class="params">(value)</span> </span>&#123; length = width = value; &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    Object.defineProperty(square, <span class="string">"width"</span>, &#123;</span><br><span class="line">        <span class="keyword">get</span>: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> width; &#125;,</span><br><span class="line">        <span class="keyword">set</span>: <span class="function"><span class="keyword">function</span><span class="params">(value)</span> </span>&#123; length = width = value; &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>不幸的是，当我们使用正方形代替矩形执行代码的时候发现了问题，其中一个计算矩形面积的方法如下：</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> g = function(<span class="built_in">rectangle</span>) &#123;</span><br><span class="line">    <span class="built_in">rectangle</span>.<span class="built_in">length</span> = <span class="number">3</span>;</span><br><span class="line">    <span class="built_in">rectangle</span>.<span class="built_in">width</span> = <span class="number">4</span>;</span><br><span class="line">    write(<span class="built_in">rectangle</span>.<span class="built_in">length</span>);</span><br><span class="line">    write(<span class="built_in">rectangle</span>.<span class="built_in">width</span>);</span><br><span class="line">    write(<span class="built_in">rectangle</span>.<span class="built_in">length</span> * <span class="built_in">rectangle</span>.<span class="built_in">width</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>该方法在调用的时候，结果是16，而不是期望的12，我们的正方形square对象违反了LSP原则，square的长度和宽度属性暗示着并不是和矩形100%兼容，但我们并不总是这样明确的暗示。解决这个问题，我们可以重新设计一个shape对象来实现程序，依据多边形的概念，我们声明rectangle和square，relevant。不管怎么说，我们的目的是要说里氏替换原则并不只是继承，而是任何方法（其中的行为可以另外的行为）。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><hr>
+<p>里氏替换原则（LSP）表达的意思不是继承的关系，而是任何方法（只要该方法的行为能体会另外的行为就行）。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20160622/js-oop-isp/" rel="next" title="JavaScript之五大原则-接口隔离原则">
+                <i class="fa fa-chevron-left"></i> JavaScript之五大原则-接口隔离原则
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20160624/js-api-design/" rel="prev" title="JavaScript API 设计原则">
+                JavaScript API 设计原则 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avator.png"
+               alt="Eleanor" />
+          <p class="site-author-name" itemprop="name">Eleanor</p>
+          <p class="site-description motion-element" itemprop="description">WEB前端, JavaScript, HTML5, PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#减少LSP妨碍"><span class="nav-number">2.</span> <span class="nav-text">减少LSP妨碍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#契约（Contracts）"><span class="nav-number">2.1.</span> <span class="nav-text">契约（Contracts）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#避免继承"><span class="nav-number">2.2.</span> <span class="nav-text">避免继承</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与行为有关，而不是继承"><span class="nav-number">3.</span> <span class="nav-text">与行为有关，而不是继承</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#矩形例子"><span class="nav-number">3.1.</span> <span class="nav-text">矩形例子</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eleanor</span>
+</div>
+
+<!--div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div -->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,638 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第4篇，接口隔离原则ISP（The Interface Segregation Principle）。
+接口隔离原则的描述是：
+
+Clients should not be forced to depend on methods they do not use. 不应该强迫客户依赖于它们不用的方法。
+
+当用户依赖的接口方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript之五大原则-接口隔离原则">
+<meta property="og:url" content="http://yoursite.com/20160622/js-oop-isp/index.html">
+<meta property="og:site_name" content="云淡风轻">
+<meta property="og:description" content="前言本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第4篇，接口隔离原则ISP（The Interface Segregation Principle）。
+接口隔离原则的描述是：
+
+Clients should not be forced to depend on methods they do not use. 不应该强迫客户依赖于它们不用的方法。
+
+当用户依赖的接口方">
+<meta property="og:updated_time" content="2016-08-21T07:02:21.630Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript之五大原则-接口隔离原则">
+<meta name="twitter:description" content="前言本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第4篇，接口隔离原则ISP（The Interface Segregation Principle）。
+接口隔离原则的描述是：
+
+Clients should not be forced to depend on methods they do not use. 不应该强迫客户依赖于它们不用的方法。
+
+当用户依赖的接口方">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JavaScript之五大原则-接口隔离原则 | 云淡风轻 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">云淡风轻</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript之五大原则-接口隔离原则
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-22T15:45:21+08:00" content="2016-06-22">
+              2016-06-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第4篇，接口隔离原则ISP（The Interface Segregation Principle）。</p>
+<p>接口隔离原则的描述是：</p>
+<blockquote>
+<p>Clients should not be forced to depend on methods they do not use.<br> 不应该强迫客户依赖于它们不用的方法。</p>
+</blockquote>
+<p>当用户依赖的接口方法即便只被别的用户使用而自己不用，那它也得实现这些接口，换而言之，一个用户依赖了未使用但被其他用户使用的接口，当其他用户修改该接口时，依赖该接口的所有用户都将受到影响。这显然违反了开闭原则，也不是我们所期望的。</p>
+<p>接口隔离原则ISP和单一职责有点类似，都是用于聚集功能职责的，实际上ISP可以被理解才具有单一职责的程序转化到一个具有公共接口的对象。</p>
+<h4 id="JavaScript接口"><a href="#JavaScript接口" class="headerlink" title="JavaScript接口"></a>JavaScript接口</h4><p>JavaScript下我们改如何遵守这个原则呢？毕竟JavaScript没有接口的特性，如果接口就是我们所想的通过某种语言提供的抽象类型来建立contract和解耦的话，那可以说还行，不过JavaScript有另外一种形式的接口。在Design Patterns – Elements of Reusable Object-Oriented Software一书中我们找到了接口的定义：</p>
+<blockquote>
+<p>   一个对象声明的任意一个操作都包含一个操作名称，参数对象和操作的返回值。我们称之为操作符的签名（signature）。<br>    一个对象里声明的所有的操作被称为这个对象的接口（interface）。一个对象的接口描绘了所有发生在这个对象上的请求信息。</p>
+</blockquote>
+<p>不管一种语言是否提供一个单独的构造来表示接口，所有的对象都有一个由该对象所有属性和方法组成的隐式接口。参考如下代码：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> exampleBinder = &#123;&#125;;</span><br><span class="line">exampleBinder.modelObserver = (<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* 私有变量 */</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        observe: <span class="function"><span class="keyword">function</span><span class="params">(model)</span> </span>&#123;</span><br><span class="line">            <span class="comment">/* 代码 */</span></span><br><span class="line">            <span class="keyword">return</span> newModel;</span><br><span class="line">        &#125;,</span><br><span class="line">        onChange: <span class="function"><span class="keyword">function</span><span class="params">(callback)</span> </span>&#123;</span><br><span class="line">            <span class="comment">/* 代码 */</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">exampleBinder.viewAdaptor = (<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* 私有变量 */</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        bind: <span class="function"><span class="keyword">function</span><span class="params">(model)</span> </span>&#123;</span><br><span class="line">            <span class="comment">/* 代码 */</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">exampleBinder.bind = <span class="function"><span class="keyword">function</span><span class="params">(model)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* 私有变量 */</span></span><br><span class="line">    exampleBinder.modelObserver.onChange(<span class="comment">/* 回调callback */</span>);</span><br><span class="line">    <span class="keyword">var</span> om = exampleBinder.modelObserver.observe(model);</span><br><span class="line">    exampleBinder.viewAdaptor.bind(om);</span><br><span class="line">    <span class="keyword">return</span> om;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面的exampleBinder类库实现的功能是双向绑定。该类库暴露的公共接口是bind方法，其中bind里用到的关于change通知和view交互的功能分别是由单独的对象modelObserver和viewAdaptor来实现的，这些对象从某种意义上来说就是公共接口bind方法的具体实现。</p>
+<p>尽管JavaScript没有提供接口类型来支持对象的contract，但该对象的隐式接口依然能当做一个contract提供给程序用户。</p>
+<h4 id="ISP与JavaScript"><a href="#ISP与JavaScript" class="headerlink" title="ISP与JavaScript"></a>ISP与JavaScript</h4><hr>
+<p>我们下面讨论的一些小节是JavaScript里关于违反接口隔离原则的影响。正如上面看到的，JavaScript程序里实现接口隔离原则虽然可惜，但是不像静态类型语言那样强大，JavaScript的语言特性有时候会使得所谓的接口搞得有点不粘性。</p>
+<h5 id="堕落的实现"><a href="#堕落的实现" class="headerlink" title="堕落的实现"></a>堕落的实现</h5><p>在静态类型语言语言里，导致违反ISP原则的一个原因是堕落的实现。在Java和C#里所有的接口里定义的方法都必须实现，如果你只需要其中几个方法，那其他的方法也必须实现（可以通过空实现或者抛异常的方式）。在JavaScript里，如果只需要一个对象里的某一些接口的话，他也解决不了堕落实现这个问题，虽然不用强制实现上面的接口。但是这种实现依然违反了里氏替换原则。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rectangle = &#123;</span><br><span class="line">    area: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">/* 代码 */</span></span><br><span class="line">    &#125;,</span><br><span class="line">    draw: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">/* 代码 */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> geometryApplication = &#123;</span><br><span class="line">    getLargestRectangle: <span class="function"><span class="keyword">function</span><span class="params">(rectangles)</span> </span>&#123;</span><br><span class="line">        <span class="comment">/* 代码 */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> drawingApplication = &#123;</span><br><span class="line">    drawRectangles: <span class="function"><span class="keyword">function</span><span class="params">(rectangles)</span> </span>&#123;</span><br><span class="line">       <span class="comment">/* 代码 */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>当一个rectangle替代品为了满足新对象geometryApplication的getLargestRectangle的时候，它仅仅需要rectangle的area()方法，但它却违反了LSP（因为他根本用不到其中drawRectangles方法才能用到的draw方法）。</p>
+<h5 id="静态耦合"><a href="#静态耦合" class="headerlink" title="静态耦合"></a>静态耦合</h5><p>静态类型语言里的另外一个导致违反ISP的原因是静态耦合，在静态类型语言里，接口在一个松耦合设计程序里扮演了重大角色。不管是在动态语言还是在静态语言，有时候一个对象都可能需要在多个客户端用户进行通信（比如共享状态），对静态类型语言，最好的解决方案是使用Role Interfaces，它允许用户和该对象进行交互（而该对象可能需要在多个角色）作为它的实现来对用户和无关的行为进行解耦。在JavaScript里就没有这种问题了，因为对象都被动态语言所特有的优点进行解耦了。</p>
+<h5 id="语义耦合"><a href="#语义耦合" class="headerlink" title="语义耦合"></a>语义耦合</h5><p>导致违反ISP的一个通用原因，动态语言和静态类型语言都有，那就是语义耦合，所谓语义耦合就是互相依赖，也就是一个对象的行为依赖于另外一个对象，那就意味着，如果一个用户改变了其中一个行为，很有可能会影响另外一个使用用户。这也违反单一职责原则了。可以通过继承和对象替代来解决这个问题。</p>
+<h5 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h5><p>另外一个导致问题的原因是关于可扩展性，很多人在举例的时候都会举关于callback的例子用来展示可扩展性（比如ajax里成功以后的回调设置）。如果想这样的接口需要一个实现并且这个实现的对象里有很多熟悉或方法的话，ISP就会变得很重要了，也就是说当一个接口interface变成了一个需求实现很多方法的时候，他的实现将会变得异常复杂，而且有可能导致这些接口承担一个没有粘性的职责，这就是我们经常提到的胖接口。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><hr>
+<p>JavaScript里的动态语言特性，使得我们实现非粘性接口的影响力比静态类型语言小，但接口隔离原则在JavaScript程序设计模式里依然有它发挥作用的地方。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20160622/js-oop-dip/" rel="next" title="JavaScript之五大原则-依赖倒置原则">
+                <i class="fa fa-chevron-left"></i> JavaScript之五大原则-依赖倒置原则
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20160622/js-oop-lsp/" rel="prev" title="JavaScript之五大原则-里氏替换原则">
+                JavaScript之五大原则-里氏替换原则 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avator.png"
+               alt="Eleanor" />
+          <p class="site-author-name" itemprop="name">Eleanor</p>
+          <p class="site-description motion-element" itemprop="description">WEB前端, JavaScript, HTML5, PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JavaScript接口"><span class="nav-number">2.</span> <span class="nav-text">JavaScript接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ISP与JavaScript"><span class="nav-number">3.</span> <span class="nav-text">ISP与JavaScript</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#堕落的实现"><span class="nav-number">3.1.</span> <span class="nav-text">堕落的实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#静态耦合"><span class="nav-number">3.2.</span> <span class="nav-text">静态耦合</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#语义耦合"><span class="nav-number">3.3.</span> <span class="nav-text">语义耦合</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#可扩展性"><span class="nav-number">3.4.</span> <span class="nav-text">可扩展性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eleanor</span>
+</div>
+
+<!--div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div -->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
