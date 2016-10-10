@@ -1,0 +1,728 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jQuery," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="文章主要分为三部分，第一部分简单介绍了extend的语法，第二部分通过实例介绍extend的用途,最后一部分是extend的源码解读，同时另附extend的另一种实现方式。
+
+方法介绍jQuery 的 API 手册中，extend 方法挂载在 jQuery 和 jQuery.fn 两个不同的对象上，但在 jQuery 内部代码实现的是相同的，只是功能各不相同。
+官方解释：
+jQuery.exten">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery的extend方法源码解读">
+<meta property="og:url" content="http://yoursite.com/20150218/js-deep-copy/index.html">
+<meta property="og:site_name" content="云淡风轻">
+<meta property="og:description" content="文章主要分为三部分，第一部分简单介绍了extend的语法，第二部分通过实例介绍extend的用途,最后一部分是extend的源码解读，同时另附extend的另一种实现方式。
+
+方法介绍jQuery 的 API 手册中，extend 方法挂载在 jQuery 和 jQuery.fn 两个不同的对象上，但在 jQuery 内部代码实现的是相同的，只是功能各不相同。
+官方解释：
+jQuery.exten">
+<meta property="og:updated_time" content="2016-09-30T13:17:23.402Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery的extend方法源码解读">
+<meta name="twitter:description" content="文章主要分为三部分，第一部分简单介绍了extend的语法，第二部分通过实例介绍extend的用途,最后一部分是extend的源码解读，同时另附extend的另一种实现方式。
+
+方法介绍jQuery 的 API 手册中，extend 方法挂载在 jQuery 和 jQuery.fn 两个不同的对象上，但在 jQuery 内部代码实现的是相同的，只是功能各不相同。
+官方解释：
+jQuery.exten">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> jQuery的extend方法源码解读 | 云淡风轻 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">云淡风轻</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jQuery的extend方法源码解读
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-02-18T20:11:55+08:00" content="2015-02-18">
+              2015-02-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/jQuery/" itemprop="url" rel="index">
+                    <span itemprop="name">jQuery</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>文章主要分为三部分，第一部分简单介绍了extend的语法，第二部分通过实例介绍extend的用途,最后一部分是extend的源码解读，同时另附extend的另一种实现方式。</p>
+<hr>
+<h2 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h2><p>jQuery 的 API 手册中，extend 方法挂载在 jQuery 和 jQuery.fn 两个不同的对象上，但在 jQuery 内部代码实现的是相同的，只是功能各不相同。</p>
+<p>官方解释：</p>
+<p>jQuery.extend:Merge the contents of two or more objects together into the first object.(把两个或者多个对象合并到第一个对象当中)</p>
+<p>jQuery.fn.extend:Merge the contents of an object onto the jQuery prototype to provide new jQuery instance methods.(把对象挂载到 jQuery 的 prototype 上以扩展一个新的 jQuery 实例方法 。)</p>
+<p>syntax:</p>
+<p>jQuery.extend([deep,] [target,] object1 [,objectN]);</p>
+<p>jQuery.fn.extend([deep，] [target,] object1 [,objectN])</p>
+<p>deep: Boolen类型，可选，表示是否进行递归合并（深/浅复制），为true是为深复制；默认值为false，浅复制。<br>target:扩展对象，可选，将接收新的属性。<br>objectN:一个对象，包含额外的属性，扩展到目标对象（扩展对象）。</p>
+<h2 id="extend实现的功能"><a href="#extend实现的功能" class="headerlink" title="extend实现的功能"></a>extend实现的功能</h2><h3 id="将两个或者更多个对象合并到第一个对象"><a href="#将两个或者更多个对象合并到第一个对象" class="headerlink" title="将两个或者更多个对象合并到第一个对象"></a>将两个或者更多个对象合并到第一个对象</h3><p>在这种情况下，extend方法需要至少传入两个对象，语法如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">jQuery</span><span class="selector-class">.extend</span>(<span class="selector-tag">target</span>, <span class="selector-tag">object1</span> <span class="selector-attr">[,objectN]</span>)</span><br><span class="line"><span class="selector-tag">or</span></span><br><span class="line"><span class="selector-tag">jQuery</span><span class="selector-class">.fn</span><span class="selector-class">.extend</span>(<span class="selector-tag">target</span>, <span class="selector-tag">object1</span> <span class="selector-attr">[,objectN]</span>)</span><br></pre></td></tr></table></figure>
+<p>合并object1,…,objectN对象内容到第一个对象target。<br>这里需要注意一下几点：</p>
+<pre><code>1.合并后target对象的内容会改变，如果不希望改变target对象的内容，可以将第一个对象设置为{}.
+2.这种方法是有返回值的，返回值就是修改后的target对象.
+3.合并后的target对象的内容，属性值永远是在object1,...,objectN几个对象中最后一次出现时的属性值，也就是对于相同名字的属性，后面对象中的属性值会覆盖前面对象的属性值。
+</code></pre><p>实例</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">function getOpt(target, obj1, obj2, obj3)&#123;</span><br><span class="line">    $.extend(target, obj1, obj2, obj3);</span><br><span class="line">    <span class="keyword">return</span> target;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var _default = &#123;</span><br><span class="line">    <span class="string">name :</span> <span class="string">'wenzi'</span>,</span><br><span class="line">    <span class="string">age :</span> <span class="string">'25'</span>,</span><br><span class="line">    <span class="string">sex :</span> <span class="string">'male'</span></span><br><span class="line">&#125;</span><br><span class="line">var obj1 = &#123;</span><br><span class="line">    <span class="string">name :</span> <span class="string">'obj1'</span></span><br><span class="line">&#125;</span><br><span class="line">var obj2 = &#123;</span><br><span class="line">    <span class="string">name :</span> <span class="string">'obj2'</span>,</span><br><span class="line">    <span class="string">age :</span> <span class="string">'36'</span></span><br><span class="line">&#125;</span><br><span class="line">var obj3 = &#123;</span><br><span class="line">    <span class="string">age :</span> <span class="string">'67'</span>,</span><br><span class="line">    <span class="string">sex :</span> &#123;<span class="string">'error'</span>:<span class="string">'sorry, I dont\'t kown'</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line">getOpt(_default, obj1, obj2, obj3);  <span class="comment">// &#123;name: "obj2", age: "67", sex: &#123;error: "sorry, I dont't kown"&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="覆盖函数的默认参数"><a href="#覆盖函数的默认参数" class="headerlink" title="覆盖函数的默认参数"></a>覆盖函数的默认参数</h3><p>这条用法实际上就是用的”将两个或者更多个对象合并到第一个对象”，之所以把提出来另起一个标题，是因为这是一种很常见的编程技巧。</p>
+<p>实例：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> getOpt(<span class="keyword">option</span>)&#123;</span><br><span class="line">    var _default = &#123;</span><br><span class="line">        name : <span class="string">'wenzi'</span>,</span><br><span class="line">        age : <span class="string">'25'</span>,</span><br><span class="line">        sex : <span class="string">'male'</span></span><br><span class="line">    &#125;</span><br><span class="line">    $.extend(_default, option);</span><br><span class="line">    return _default;</span><br><span class="line">&#125;</span><br><span class="line">getOpt();  // &#123;name: <span class="string">"wenzi"</span>, age: <span class="string">"25"</span>, sex: <span class="string">"male"</span>&#125;</span><br><span class="line">getOpt(&#123;name:<span class="string">'bing'</span>&#125;); // &#123;name: <span class="string">"bing"</span>, age: <span class="string">"25"</span>, sex: <span class="string">"male"</span>&#125;</span><br><span class="line">getOpt(&#123;name:<span class="string">'bing'</span>, age:<span class="number">36</span>, sex:<span class="string">'female'</span>&#125;);  // &#123;name: <span class="string">"bing"</span>, age: <span class="number">36</span>, sex: <span class="string">"female"</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p>函数getOpt含有默认参数（对象）_default，若传入函数的参数option（对象）中含有某个属性的值，则使用传入值，否则使用默认值。</p>
+<h3 id="深浅拷贝"><a href="#深浅拷贝" class="headerlink" title="深浅拷贝"></a>深浅拷贝</h3><p>所谓的深浅拷贝，就是C语言中的拷贝地址与数据<br>浅拷贝</p>
+<p>浅复制对象A时，对象B将复制A的所有字段，如果字段是内存地址，B将复制地址，若果字段是基元类型，B将复制其值。<br>浅复制的缺点是如果你改变了对象B所指向的内存地址，你同时也改变了对象A指向这个地址的字段</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">copy</span>(<span class="params">target,cloneObj</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> cloneObj)&#123;</span><br><span class="line">        target[i]  = cloneObj[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> target;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    a:&#123; c:<span class="string">"c"</span> &#125;,</span><br><span class="line">    b:<span class="string">"b"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> t = &#123;&#125;;</span><br><span class="line">copy(t,a);</span><br><span class="line">t.a.c =<span class="string">"e"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a.a.c);<span class="comment">//e</span></span><br></pre></td></tr></table></figure>
+<p>深拷贝</p>
+<p>这种方式会完全复制所有数据，优点是B与A不会相互依赖（A,B完全脱离关联）， 缺点是复制的速度慢，代价大。</p>
+<p>一种是实现深度拷贝的方案：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">function <span class="keyword">type</span>(obj)&#123;</span><br><span class="line">    <span class="keyword">return</span> Object.prototype.<span class="keyword">toString</span>.call(obj).slice(8,-1);</span><br><span class="line">&#125;</span><br><span class="line">function deepCopy(target,cloneObj)&#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="keyword">copy</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> cloneObj)&#123;</span><br><span class="line">        <span class="keyword">copy</span> = cloneObj[i];</span><br><span class="line">        <span class="keyword">if</span>(target === <span class="keyword">copy</span>)&#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">type</span>(<span class="keyword">copy</span>) === <span class="string">"Array"</span>)&#123;</span><br><span class="line">            target[i] = arguments.callee(target[i] || [],<span class="keyword">copy</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">type</span>(<span class="keyword">copy</span>) === <span class="string">"Object"</span>)&#123;</span><br><span class="line">            target[i] = arguments.callee(target[i] || &#123;&#125;,<span class="keyword">copy</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            target[i] = <span class="keyword">copy</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> target;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    a:&#123; c:<span class="string">"c"</span> &#125;,</span><br><span class="line">    b:<span class="string">"b"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> t = deepCopy(&#123;&#125;,a);</span><br><span class="line">t.a.c =<span class="string">"e"</span>;</span><br><span class="line">console.<span class="built_in">log</span>(a.a.c);<span class="comment">//c</span></span><br></pre></td></tr></table></figure>
+<p>可以看到a没有被修改，但是要更深层次的遍历，肯定很耗费性能的。用for-in把所有可枚举的包括原型链上的一起遍历了。<br>用法</p>
+<p>在用extend方法进行对象合并时，可以指定第一个参数为boolean类型，来决定是深拷贝（true）还是浅拷贝（false），语法如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">jQuery</span><span class="selector-class">.extend</span>(<span class="selector-tag">deep</span>, <span class="selector-tag">target</span>, <span class="selector-tag">object1</span> <span class="selector-attr">[,objectN]</span>)</span><br><span class="line"><span class="selector-tag">or</span></span><br><span class="line"><span class="selector-tag">jQuery</span><span class="selector-class">.fn</span><span class="selector-class">.extend</span>(<span class="selector-tag">deep</span>, <span class="selector-tag">target</span>, <span class="selector-tag">object1</span> <span class="selector-attr">[,objectN]</span>)</span><br></pre></td></tr></table></figure>
+<p>实例：</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var obj1 = &#123;</span><br><span class="line">    name: <span class="string">"John"</span>,</span><br><span class="line">    location: &#123;</span><br><span class="line">        city: <span class="string">"Boston"</span>,</span><br><span class="line">        county: <span class="string">"USA"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var obj2 = &#123;</span><br><span class="line">    last: <span class="string">"Resig"</span>,</span><br><span class="line">    location: &#123;</span><br><span class="line">        <span class="keyword">state</span>: <span class="string">"MA"</span>,</span><br><span class="line">        county: <span class="string">"China"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$.extend(false, &#123;&#125;, obj1, obj2); // &#123; name: <span class="string">"John"</span>, last: <span class="string">"Resig"</span>, location: &#123; <span class="keyword">state</span>: <span class="string">"MA"</span>, county: <span class="string">"China"</span> &#125;&#125;</span><br><span class="line"></span><br><span class="line">$.extend(true, &#123;&#125;, obj1, obj2); // &#123; name: <span class="string">"John"</span>, last: <span class="string">"Resig"</span>, location: &#123; city: <span class="string">"Boston"</span>, <span class="keyword">state</span>: <span class="string">"MA"</span>, county: <span class="string">"China"</span> &#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>由此可见，执行 深度复制 会递归遍历每个对象中含有复杂对象（如：数组、函数、json对象等）的属性值进行复制，而且 浅度复制 便不会这么做。</p>
+<h3 id="jQuery插件开发"><a href="#jQuery插件开发" class="headerlink" title="jQuery插件开发"></a>jQuery插件开发</h3><p>jQuery插件开发分为两种：1 类级别、2 对象级别</p>
+<pre><code>类级别（类方法）：是直接可以使用类引用，不需要实例化就可以使用的方法。一般在项目中 类方法 都是被设置为工具类使用；
+
+对象级别（实例方法）必须先创建实例，然后才能通过实例调用该 实例方法
+
+jQuery可以看做是这个封装得非常好的类，而我们可以使用jQuery选择器来创建 jQuery 的实例。比如：使 id 选择器$(&apos;#btn&apos;)来创建一个实例。
+</code></pre><p>类级别 $.extend(src)</p>
+<p>类级别你可以理解为拓展jQuery类，最明显的例子是$.ajax(…)，相当于静态方法，开发扩展其方法时使用$.extend方法<br>实例1：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$.extend(&#123;</span><br><span class="line">    add:<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;<span class="keyword">return</span> a+b;&#125; </span><br><span class="line">    minus:<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;<span class="keyword">return</span> a-b;&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>调用方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = $.add(<span class="number">3</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">var</span> j = $.minus(<span class="number">3</span>,<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<p>对象级别 $.fn.extend(src)</p>
+<p>对象级别则可以理解为基于对象的拓展，如$(“#table”).set(…); 这里这个set呢，就是基于对象的拓展了。开发扩展其方法时使用$.fn.extend方法，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$.fn.extend(&#123;</span><br><span class="line"></span><br><span class="line">    check:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.each(&#123;</span><br><span class="line">            <span class="keyword">this</span>.checked=<span class="literal">true</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    uncheck:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.each(&#123;</span><br><span class="line">            <span class="keyword">this</span>.checked=<span class="literal">false</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>调用方式</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$('input[<span class="keyword">type</span>=checkbox]').check();</span><br><span class="line">$('input[<span class="keyword">type</span>=checkbox]').uncheck();</span><br></pre></td></tr></table></figure>
+<p>类似于命名空间的扩展</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$.xy = &#123;</span><br><span class="line">    add:<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b;</span><br><span class="line">    &#125; ,</span><br><span class="line">    minus:<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a-b;</span><br><span class="line">    &#125;,</span><br><span class="line">    voidMethod:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        alert(<span class="string">"void"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>调用方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = $.xy.add(<span class="number">3</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">var</span> m = $.xy.minus(<span class="number">3</span>,<span class="number">2</span>);</span><br><span class="line">$.xy.voidMethod();</span><br></pre></td></tr></table></figure>
+<p>用法</p>
+<p>如果只有一个参数对象提供给$.extend()，这意味着目标参数被省略。在这种情况下，调用extend方法的对象被默认为目标对象，参数对象中的内容将合并到目标对象中去。语法如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">jQuery</span><span class="selector-class">.extend</span>(<span class="selector-tag">object</span>) <span class="selector-tag">or</span> <span class="selector-tag">jQuery</span><span class="selector-class">.fn</span><span class="selector-class">.extend</span>(<span class="selector-tag">object</span>)</span><br></pre></td></tr></table></figure>
+<p>1.$.extend(src)</p>
+<p>该方法就是将src合并到jquery的全局对象中去，如：</p>
+<p> $.extend({<br>  hello:function(){alert(‘hello’);}<br>  });</p>
+<p>就是将hello方法合并到jquery的全局对象中。<br>2.$.fn.extend(src)</p>
+<p>该方法将src合并到jquery的实例对象中去，如:</p>
+<p> $.fn.extend({<br>  hello:function(){alert(‘hello’);}<br> });</p>
+<p>就是将hello方法合并到jquery的实例对象中。</p>
+<h2 id="源码解读"><a href="#源码解读" class="headerlink" title="源码解读"></a>源码解读</h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 为与源码的下标对应上，我们把第一个参数称为`第0个参数`，依次类推</span></span><br><span class="line">jQuery.extend = jQuery.fn.extend = function() &#123;</span><br><span class="line">    var <span class="keyword">options</span>, name, src, <span class="keyword">copy</span>, copyIsArray, clone,</span><br><span class="line">        target = arguments[<span class="number">0</span>] || &#123;&#125;, <span class="comment">// 默认第0个参数为目标参数</span></span><br><span class="line">        i = <span class="number">1</span>,    <span class="comment">// i表示从第几个参数凯斯想目标参数进行合并，默认从第1个参数开始向第0个参数进行合并</span></span><br><span class="line">        length = arguments.length,</span><br><span class="line">        deep = <span class="keyword">false</span>;  <span class="comment">// 默认为浅度拷贝</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断第0个参数的类型，若第0个参数是boolean类型，则获取其为true还是false</span></span><br><span class="line">    <span class="comment">// 同时将第1个参数作为目标参数，i从当前目标参数的下一个</span></span><br><span class="line">    <span class="comment">// Handle a deep copy situation</span></span><br><span class="line">    <span class="keyword">if</span> ( typeof target === <span class="string">"boolean"</span> ) &#123;</span><br><span class="line">        deep = target;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Skip the boolean and the target</span></span><br><span class="line">        target = arguments[ i ] || &#123;&#125;;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  判断目标参数的类型，若目标参数既不是object类型，也不是function类型，则为目标参数重新赋值 </span></span><br><span class="line">    <span class="comment">// Handle case when target is a string or something (possible in deep copy)</span></span><br><span class="line">    <span class="keyword">if</span> ( typeof target !== <span class="string">"object"</span> &amp;&amp; !jQuery.isFunction(target) ) &#123;</span><br><span class="line">        target = &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	 <span class="comment">// 若目标参数后面没有参数了，如$.extend(&#123;_name:'wenzi'&#125;), $.extend(true, &#123;_name:'wenzi'&#125;)</span></span><br><span class="line">    <span class="comment">// 则目标参数即为jQuery本身，而target表示的参数不再为目标参数</span></span><br><span class="line">    <span class="comment">// Extend jQuery itself if only one argument is passed</span></span><br><span class="line">    <span class="keyword">if</span> ( i === length ) &#123;</span><br><span class="line">        target = <span class="keyword">this</span>;</span><br><span class="line">        i--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从第i个参数开始</span></span><br><span class="line">    <span class="keyword">for</span> ( ; i &lt; length; i++ ) &#123;</span><br><span class="line">        <span class="comment">// 获取第i个参数，且该参数不为null，</span></span><br><span class="line">        <span class="comment">// 比如$.extend(target, &#123;&#125;, null);中的第2个参数null是不参与合并的</span></span><br><span class="line">        <span class="comment">// Only deal with non-null/undefined values</span></span><br><span class="line">        <span class="keyword">if</span> ( (<span class="keyword">options</span> = arguments[ i ]) != <span class="keyword">null</span> ) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 使用for~in获取该参数中所有的字段</span></span><br><span class="line">            <span class="comment">// Extend the base object</span></span><br><span class="line">            <span class="keyword">for</span> ( name in <span class="keyword">options</span> ) &#123;</span><br><span class="line">                src = target[ name ];   <span class="comment">// 目标参数中name字段的值</span></span><br><span class="line">                <span class="keyword">copy</span> = <span class="keyword">options</span>[ name ]; <span class="comment">// 当前参数中name字段的值</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 若参数中字段的值就是目标参数，停止赋值，进行下一个字段的赋值</span></span><br><span class="line">                <span class="comment">// 这是为了防止无限的循环嵌套，我们把这个称为，在下面进行比较详细的讲解</span></span><br><span class="line">                <span class="comment">// Prevent never-ending loop</span></span><br><span class="line">                <span class="keyword">if</span> ( target === <span class="keyword">copy</span> ) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 若deep为true，且当前参数中name字段的值存在且为object类型或Array类型，则进行深度赋值</span></span><br><span class="line">                <span class="comment">// Recurse if we're merging plain objects or arrays</span></span><br><span class="line">                <span class="keyword">if</span> ( deep &amp;&amp; <span class="keyword">copy</span> &amp;&amp; ( jQuery.isPlainObject(<span class="keyword">copy</span>) || (copyIsArray = jQuery.isArray(<span class="keyword">copy</span>)) ) ) &#123;</span><br><span class="line">                    <span class="comment">// 若当前参数中name字段的值为Array类型</span></span><br><span class="line">                    <span class="comment">// 判断目标参数中name字段的值是否存在，若存在则使用原来的，否则进行初始化</span></span><br><span class="line">                    <span class="keyword">if</span> ( copyIsArray ) &#123;</span><br><span class="line">                        copyIsArray = <span class="keyword">false</span>;</span><br><span class="line">                        clone = src &amp;&amp; jQuery.isArray(src) ? src : [];</span><br><span class="line"></span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="comment">// 若原对象存在，则直接进行使用，而不是创建</span></span><br><span class="line">                        clone = src &amp;&amp; jQuery.isPlainObject(src) ? src : &#123;&#125;;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 递归处理，此处为2.2</span></span><br><span class="line">                    <span class="comment">// Never move original objects, clone them                      </span></span><br><span class="line">                    target[ name ] = jQuery.extend( deep, clone, <span class="keyword">copy</span> );</span><br><span class="line"></span><br><span class="line">                <span class="comment">// deep为false，则表示浅度拷贝，直接进行赋值</span></span><br><span class="line">                <span class="comment">// 若copy是简单的类型且存在值，则直接进行赋值</span></span><br><span class="line">                <span class="comment">// Don't bring in undefined values</span></span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( <span class="keyword">copy</span> !== undefined ) &#123;</span><br><span class="line">                    <span class="comment">// 若原对象存在name属性，则直接覆盖掉；若不存在，则创建新的属性</span></span><br><span class="line">                    target[ name ] = <span class="keyword">copy</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回修改后的目标参数</span></span><br><span class="line">    <span class="comment">// Return the modified object</span></span><br><span class="line">    <span class="keyword">return</span> target;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="若参数中字段的值就是目标参数，停止赋值"><a href="#若参数中字段的值就是目标参数，停止赋值" class="headerlink" title="若参数中字段的值就是目标参数，停止赋值"></a>若参数中字段的值就是目标参数，停止赋值</h3><p>在源码中进行了一下这样的判断：<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Prevent never-ending loop</span></span><br><span class="line"><span class="keyword">if</span> ( <span class="keyword">target</span> === copy ) &#123;</span><br><span class="line">    <span class="keyword">continue</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为什么要有这样的判断，我们来看一个简单的例子，如果没有这个判断会怎么样：</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var _<span class="keyword">default</span> = &#123;name : <span class="string">'wenzi'</span>&#125;;</span><br><span class="line">var obj = &#123;name : _default&#125;</span><br><span class="line">$.extend(_<span class="keyword">default</span>, obj);</span><br><span class="line">console.log(_<span class="keyword">default</span>);</span><br></pre></td></tr></table></figure>
+<p>输出的_default是什么：</p>
+<p>_default = {name : _default};</p>
+<p>_default是object类型，里面有个字段name，值是_default，而_default是object类型，里面有个字段name，值是_default……，无限的循环下去。于是jQuery中直接不进行操作，跳过这个字段，进行下一个字段的操作。</p>
+<h3 id="深度拷贝时进行递归处理"><a href="#深度拷贝时进行递归处理" class="headerlink" title="深度拷贝时进行递归处理"></a>深度拷贝时进行递归处理</h3><p>变量值为简单类型（基元类型，如number, string, boolean）进行赋值时是不会影响上一个变量的值的，因此，如果当前字段的值为Object或Array类型，需要对其进行拆分，直到字段的值为简单类型（如number, string, boolean）时才进行赋值操作。</p>
+<h3 id="extend-与-fn-extend"><a href="#extend-与-fn-extend" class="headerlink" title="$.extend()与$.fn.extend()"></a>$.extend()与$.fn.extend()</h3><p>jQuery.extend = jQuery.fn.extend = function(){}</p>
+<p>也就是说$.extend()与$.fn.extend()共用的是同一个函数体，所有的操作都是一样的，只不过两个extend使用的对象不同罢了：$.extend()是在jQuery($)上进行操作的；而$.fn.extend()是在jQuery对象上进行操作的，如$(‘div’).extend().</p>
+<h2 id="另一种实现方式"><a href="#另一种实现方式" class="headerlink" title="另一种实现方式"></a>另一种实现方式</h2><p>版本1：</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="function"><span class="keyword">function</span>(<span class="params">global</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">var</span> extend,</span><br><span class="line">        _extend,</span><br><span class="line">        _isObject;</span><br><span class="line"></span><br><span class="line">    _isObject = <span class="function"><span class="keyword">function</span>(<span class="params">o</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(o) === <span class="string">'[object Object]'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _extend = <span class="function"><span class="keyword">function</span> <span class="title">self</span>(<span class="params">destination, source</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">var</span> <span class="keyword">property</span><span class="string"> in source) &#123;</span></span><br><span class="line">            <span class="keyword">if</span> (source.hasOwnProperty(<span class="keyword">property</span><span class="string">)) &#123;</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 若sourc[property]是对象，则递归</span></span><br><span class="line">                <span class="keyword">if</span> (_isObject(source[<span class="keyword">property</span><span class="string">])) &#123;</span></span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 若destination没有property，赋值空对象</span></span><br><span class="line">                    <span class="keyword">if</span> (!destination.hasOwnProperty(<span class="keyword">property</span><span class="string">)) &#123;</span></span><br><span class="line">                        destination[<span class="keyword">property</span><span class="string">] </span>= &#123;&#125;;</span><br><span class="line">                    &#125;;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 对destination[property]不是对象，赋值空对象</span></span><br><span class="line">                    <span class="keyword">if</span> (!_isObject(destination[<span class="keyword">property</span><span class="string">])) &#123;</span></span><br><span class="line">                        destination[<span class="keyword">property</span><span class="string">] </span>= &#123;&#125;;</span><br><span class="line">                    &#125;;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 递归</span></span><br><span class="line">                    self(destination[<span class="keyword">property</span><span class="string">]</span>, source[<span class="keyword">property</span><span class="string">])</span>;</span><br><span class="line">                &#125; <span class="title">else</span> &#123;</span><br><span class="line">                    destination[<span class="keyword">property</span><span class="string">] </span>= source[<span class="keyword">property</span><span class="string">]</span>;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    extend = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">var</span> arr = <span class="built_in">arguments</span>,</span><br><span class="line">            result = &#123;&#125;,</span><br><span class="line">            i;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!arr.length) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (_isObject(arr[i])) &#123;</span><br><span class="line">                _extend(result, arr[i])</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        arr[<span class="number">0</span>] = result;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    global.extend = extend;</span><br><span class="line">&#125;(<span class="built_in">window</span>)</span><br></pre></td></tr></table></figure>
+<p>版本1存在的问题：我们这里是按照参数顺序从左到右依次执行的，但是其实若是最后一个参数有的属性，前面的参数上的该属性都不需要再扩展了。其实前面的所有参数都是将自己身上有的属性而最后一个参数没有的属性补到最后一个参数上。既如此，是不是从参数列表的右侧开始扩展更好一些。</p>
+<p>版本2：</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="function"><span class="keyword">function</span>(<span class="params">global</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">var</span> extend,</span><br><span class="line">        _extend,</span><br><span class="line">        _isObject;</span><br><span class="line"></span><br><span class="line">    _isObject = <span class="function"><span class="keyword">function</span>(<span class="params">o</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(o) === <span class="string">'[object Object]'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _extend = <span class="function"><span class="keyword">function</span> <span class="title">self</span>(<span class="params">destination, source</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">var</span> <span class="keyword">property</span><span class="string"></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">property</span><span class="string"> in destination) &#123;</span></span><br><span class="line">            <span class="keyword">if</span> (destination.hasOwnProperty(<span class="keyword">property</span><span class="string">)) &#123;</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 若destination[property]和sourc[property]都是对象，则递归</span></span><br><span class="line">                <span class="keyword">if</span> (_isObject(destination[<span class="keyword">property</span><span class="string">]) &amp;&amp; _isObject(source[property])) &#123;</span></span><br><span class="line">                    self(destination[<span class="keyword">property</span><span class="string">]</span>, source[<span class="keyword">property</span><span class="string">])</span>;</span><br><span class="line">                &#125;;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 若sourc[property]已存在，则跳过</span></span><br><span class="line">                <span class="keyword">if</span> (source.hasOwnProperty(<span class="keyword">property</span><span class="string">)) &#123;</span></span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125; <span class="title">else</span> &#123;</span><br><span class="line">                    source[<span class="keyword">property</span><span class="string">] </span>= destination[<span class="keyword">property</span><span class="string">]</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    extend = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">var</span> arr = <span class="built_in">arguments</span>,</span><br><span class="line">            result = &#123;&#125;,</span><br><span class="line">            i;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!arr.length) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (i = arr.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (_isObject(arr[i])) &#123;</span><br><span class="line">                _extend(arr[i], result);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        arr[<span class="number">0</span>] = result;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    global.extend = extend;</span><br><span class="line">&#125;(<span class="built_in">window</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="基于类库实现"><a href="#基于类库实现" class="headerlink" title="基于类库实现"></a>基于类库实现</h2><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span></span> <span class="keyword">type</span>(<span class="keyword">target</span>)&#123;</span><br><span class="line">	 // <span class="keyword">return</span> Array.prototype.slice.<span class="keyword">call</span>(Object.prototype.toString.<span class="keyword">call</span>(<span class="keyword">target</span>), <span class="number">8</span>, -<span class="number">1</span>)</span><br><span class="line">	 <span class="keyword">return</span> <span class="keyword">target</span>==null?String(<span class="keyword">target</span>):Object.prototype.toString.<span class="keyword">call</span>(<span class="keyword">target</span>).slice(<span class="number">8</span>, -<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span></span> isArray(<span class="keyword">target</span>)&#123;</span><br><span class="line">	 <span class="keyword">return</span> <span class="keyword">type</span>(<span class="keyword">target</span>) == <span class="string">'Array'</span> &amp;&amp; <span class="keyword">target</span> instanceof Array;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span></span> isObject(<span class="keyword">target</span>)&#123;</span><br><span class="line">	 <span class="keyword">return</span> <span class="keyword">type</span>(<span class="keyword">target</span>) == <span class="string">'Object'</span>	</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span></span> isPlainObject(<span class="keyword">target</span>)&#123;</span><br><span class="line">	 <span class="keyword">return</span> isObject(<span class="keyword">target</span>) &amp;&amp; Object.getPrototypeOf(<span class="keyword">target</span>) == Object.prototype</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span></span> deepCopy(<span class="keyword">target</span>)&#123;</span><br><span class="line">		var deep, args = Array.prototype.slice.<span class="keyword">call</span>(arguments, <span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span>(typeof <span class="keyword">target</span> == <span class="string">'boolean'</span>)&#123;</span><br><span class="line">				deep = <span class="keyword">target</span></span><br><span class="line">				<span class="keyword">target</span> = args.shift()	</span><br><span class="line">		&#125;</span><br><span class="line">		args.forEach(<span class="function"><span class="keyword">function</span><span class="params">(arg, key)</span></span>&#123;</span><br><span class="line">				extend(<span class="keyword">target</span>, arg, deep)</span><br><span class="line">		&#125;)</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">target</span>;</span><br><span class="line">&#125;</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">### 按照jquery方式实现</span><br></pre></td></tr></table></figure>
+<p>function extend(target, source, deep){<br>        var src, copy, clone<br>        for(var key in source){<br>                 src = target[key]<br>                 copy = source[key]<br>                 if(target == copy) continue;<br>                 if(deep &amp;&amp; copy &amp;&amp; (type(copy)==’Object’||type(copy)==’Array’)){</p>
+<pre><code>                  if(type(copy)==&apos;Object&apos;){
+
+                           clone = src &amp;&amp; type(src)==&apos;Object&apos; ? src : {}
+                  }
+                  if(type(copy)==&apos;Array&apos;){
+
+                           clone = src &amp;&amp; type(src)==&apos;Array&apos; ? src : []
+                  }
+                  target[key] = extend(clone, copy, deep)
+         }else{
+                  if(copy !== undefined) target[key] = copy
+         }
+}
+return target
+</code></pre><p>}<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">### 按照zepto方式实现</span></span><br></pre></td></tr></table></figure></p>
+<p>function extend(target, source, deep){<br>        for(var key in source){<br>                 if(deep &amp;&amp; (isPlainObject(source[key]) || isArray(source[key])))    {<br>                          if(isPlainObject(source[key]) &amp;&amp; !isPlainObject(target[key])){</p>
+<pre><code>                           target[key] = {}
+                  }
+                  if(isArray(source[key]) &amp;&amp; !isArray(target[key])){
+
+                           target[key] = []
+                  }
+
+                  extend(target[key], source[key], true)
+         }else{
+                  if(source[key] !== undefined)    target[key] = source[key]  
+         }
+}
+</code></pre><p>}<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实例：</span><br></pre></td></tr></table></figure></p>
+<p>var A = {<br>        a:{ c:”c” },<br>        b:”b”<br>}<br>var T = deepCopy(true, {}, A);   // 如果是浅拷贝, 则T对象中的a与A对象中的a仍存在引用关系, 故修改T会影响A</p>
+<pre><code>T.a.c =&quot;e&quot;;
+
+console.log(A.a.c);//c
+console.log(T.a.c);//e
+</code></pre><p>var obj1 = {<br>    name: “John”,<br>    location: {<br>        city: “Boston”,<br>        county: “USA”<br>    }<br>}</p>
+<p>var obj2 = {<br>    last: “Resig”,<br>    location: {<br>        state: “MA”,<br>        county: “China”<br>    }<br>}<br>var copyA = deepCopy({}, obj1, obj2)<br>var copyB = deepCopy(true, {}, obj1, obj2)<br>console.log(copyA);<br>console.log(copyB);    </p>
+<p>```</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jQuery/" rel="tag">#jQuery</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20141016/article-01/" rel="next" title="Angular之controller学习总结">
+                <i class="fa fa-chevron-left"></i> Angular之controller学习总结
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20150430/article-30/" rel="prev" title="HTML5本地存储">
+                HTML5本地存储 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avator.png"
+               alt="Eleanor" />
+          <p class="site-author-name" itemprop="name">Eleanor</p>
+          <p class="site-description motion-element" itemprop="description">WEB前端, JavaScript, HTML5, PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法介绍"><span class="nav-number">1.</span> <span class="nav-text">方法介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#extend实现的功能"><span class="nav-number">2.</span> <span class="nav-text">extend实现的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将两个或者更多个对象合并到第一个对象"><span class="nav-number">2.1.</span> <span class="nav-text">将两个或者更多个对象合并到第一个对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#覆盖函数的默认参数"><span class="nav-number">2.2.</span> <span class="nav-text">覆盖函数的默认参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深浅拷贝"><span class="nav-number">2.3.</span> <span class="nav-text">深浅拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery插件开发"><span class="nav-number">2.4.</span> <span class="nav-text">jQuery插件开发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码解读"><span class="nav-number">3.</span> <span class="nav-text">源码解读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#若参数中字段的值就是目标参数，停止赋值"><span class="nav-number">3.1.</span> <span class="nav-text">若参数中字段的值就是目标参数，停止赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深度拷贝时进行递归处理"><span class="nav-number">3.2.</span> <span class="nav-text">深度拷贝时进行递归处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extend-与-fn-extend"><span class="nav-number">3.3.</span> <span class="nav-text">$.extend()与$.fn.extend()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#另一种实现方式"><span class="nav-number">4.</span> <span class="nav-text">另一种实现方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于类库实现"><span class="nav-number">5.</span> <span class="nav-text">基于类库实现</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eleanor</span>
+</div>
+
+<!--div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div -->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
