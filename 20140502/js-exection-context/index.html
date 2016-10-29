@@ -429,7 +429,7 @@ properties-indexes 参数对应的索引值，相应的值和实际传入的参�
 </code></pre><p>在第二阶段，就会为局部变量 a 、b 赋值，注意到 d 并没有在变量对象中，正如上文中提到的那样，函数表达式是不会影响变量对象的，所以在作用域中任何一个位置引用d都会出现”d is not defined”的错误。</p>
 <p>现在你应该非常清楚JS中的变量、函数声明提升是怎么回事了吧。</p>
 <p>举个例子吧：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">typeof</span> x);<span class="comment">//"function"</span></span><br><span class="line">  <span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(y);<span class="comment">//undefined 而不是 "y is not defined" ,这就是变量声明提升！</span></span><br><span class="line">  <span class="keyword">var</span> y = <span class="number">20</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">typeof</span> x);<span class="comment">//"number"</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">x</span>(<span class="params"></span>)</span>&#123;&#125; </span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">typeof</span> x);<span class="comment">//"function"</span></span><br><span class="line">  <span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(y);<span class="comment">//undefined 而不是 "y is not defined" ,这就是变量声明提升！</span></span><br><span class="line">  <span class="keyword">var</span> y = <span class="number">20</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">typeof</span> x);<span class="comment">//"number"</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">x</span>(<span class="params"></span>)</span>&#123;&#125; </span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
 <p>为什么第一次打印x的类型是函数，第二次打印x的类型又是数字呢。这是因为，根据创建上下文时的规则，函数调用之后会按照顺序依次把函数参数、函数声明、变量声明填充为VO的属性，并且填充变量声明的时候如果同名是不会造成任何影响的，x的值还是函数。</p>
 <p>在进入上下文阶段，VO的状态：</p>
 <pre><code>VO = {
@@ -562,7 +562,7 @@ var y = 20;
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-count">38</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
