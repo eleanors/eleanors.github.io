@@ -1,0 +1,641 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="React," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="组件沟通因为React的单向数据流方式会有所限制，下面述说组件之间的沟通方式。
+可以分为以下 3 种：
+
+   【父组件】向【子组件】传值；   【子组件】向【父组件】传值；   没有任何嵌套关系的组件之间传值（PS：比如：兄弟组件之间传值）
+
+【父组件】向【子组件】传值父组件更新子组件状态，通过传递props，就可以了。例子如下：
+// 父组件var MyContainer = React.cr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React 数据流 Props 和 State [组件沟通]">
+<meta property="og:url" content="http://yoursite.com/20160221/mvc-react-commuincate/index.html">
+<meta property="og:site_name" content="云淡风轻">
+<meta property="og:description" content="组件沟通因为React的单向数据流方式会有所限制，下面述说组件之间的沟通方式。
+可以分为以下 3 种：
+
+   【父组件】向【子组件】传值；   【子组件】向【父组件】传值；   没有任何嵌套关系的组件之间传值（PS：比如：兄弟组件之间传值）
+
+【父组件】向【子组件】传值父组件更新子组件状态，通过传递props，就可以了。例子如下：
+// 父组件var MyContainer = React.cr">
+<meta property="og:updated_time" content="2017-01-01T06:58:37.377Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React 数据流 Props 和 State [组件沟通]">
+<meta name="twitter:description" content="组件沟通因为React的单向数据流方式会有所限制，下面述说组件之间的沟通方式。
+可以分为以下 3 种：
+
+   【父组件】向【子组件】传值；   【子组件】向【父组件】传值；   没有任何嵌套关系的组件之间传值（PS：比如：兄弟组件之间传值）
+
+【父组件】向【子组件】传值父组件更新子组件状态，通过传递props，就可以了。例子如下：
+// 父组件var MyContainer = React.cr">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> React 数据流 Props 和 State [组件沟通] | 云淡风轻 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">云淡风轻</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                React 数据流 Props 和 State [组件沟通]
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-21T21:16:19+08:00" content="2016-02-21">
+              2016-02-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>组件沟通因为React的单向数据流方式会有所限制，下面述说组件之间的沟通方式。</p>
+<p>可以分为以下 3 种：</p>
+<blockquote>
+<p>   【父组件】向【子组件】传值；<br>   【子组件】向【父组件】传值；<br>   没有任何嵌套关系的组件之间传值（PS：比如：兄弟组件之间传值）</p>
+</blockquote>
+<h3 id="【父组件】向【子组件】传值"><a href="#【父组件】向【子组件】传值" class="headerlink" title="【父组件】向【子组件】传值"></a>【父组件】向【子组件】传值</h3><p>父组件更新子组件状态，通过传递<code>props</code>，就可以了。例子如下：</p>
+<figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 父组件</span></span><br><span class="line"><span class="keyword">var</span> MyContainer = React.createClass(&#123;</span><br><span class="line">  getInitialState: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      checked: <span class="literal">true</span></span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ToggleButton text=<span class="string">"Toggle me"</span> checked=&#123;<span class="keyword">this</span>.state.checked&#125; /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 子组件</span></span><br><span class="line"><span class="keyword">var</span> ToggleButton = React.createClass(&#123;</span><br><span class="line">  render: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 从【父组件】获取的值</span></span><br><span class="line">    <span class="keyword">var</span> checked = <span class="keyword">this</span>.props.checked,</span><br><span class="line">        text = <span class="keyword">this</span>.props.text;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;label&gt;&#123;text&#125;: &lt;input type=<span class="string">"checkbox"</span> checked=&#123;checked&#125; /&gt;&lt;/label&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>进一步讨论</p>
+<p>如果组件嵌套层次太深，那么从外到内组件的交流成本就变得很高，通过 props 传递值的优势就不那么明显了。（PS：所以我建议尽可能的减少组件的层次，就像写 HTML 一样，简单清晰的结构更惹人爱）</p>
+<figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 父组件</span></span><br><span class="line"><span class="keyword">var</span> MyContainer = React.createClass(&#123;</span><br><span class="line">  render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;Intermediate text=<span class="string">"where is my son?"</span> /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 子组件1：中间嵌套的组件</span></span><br><span class="line"><span class="keyword">var</span> Intermediate = React.createClass(&#123;</span><br><span class="line">  render: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;Child text=&#123;<span class="keyword">this</span>.props.text&#125; /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 子组件2：子组件1的子组件</span></span><br><span class="line"><span class="keyword">var</span> Child = React.createClass(&#123;</span><br><span class="line">  render: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;span&gt;&#123;<span class="keyword">this</span>.props.text&#125;&lt;/span&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="【子组件】向【父组件】传值"><a href="#【子组件】向【父组件】传值" class="headerlink" title="【子组件】向【父组件】传值"></a>【子组件】向【父组件】传值</h3><p>接下来，我们介绍【子组件】控制自己的 state 然后告诉【父组件】的点击状态，然后在【父组件】中展示出来。因此，我们添加一个 change 事件来做交互。</p>
+<figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 父组件</span></span><br><span class="line"><span class="keyword">var</span> MyContainer = React.createClass(&#123;</span><br><span class="line">  getInitialState: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      checked: <span class="literal">false</span></span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  onChildChanged: <span class="function"><span class="keyword">function</span> <span class="params">(newState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      checked: newState</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">  render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> isChecked = <span class="keyword">this</span>.state.checked ? <span class="string">'yes'</span> : <span class="string">'no'</span>;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;div&gt;Are you checked: &#123;isChecked&#125;&lt;/div&gt;</span><br><span class="line">        &lt;ToggleButton text=<span class="string">"Toggle me"</span></span><br><span class="line">          initialChecked=&#123;<span class="keyword">this</span>.state.checked&#125;</span><br><span class="line">          callbackParent=&#123;<span class="keyword">this</span>.onChildChanged&#125;</span><br><span class="line">          /&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 子组件</span></span><br><span class="line"><span class="keyword">var</span> ToggleButton = React.createClass(&#123;</span><br><span class="line">  getInitialState: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      checked: <span class="keyword">this</span>.props.initialChecked</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  onTextChange: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> newState = !<span class="keyword">this</span>.state.checked;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      checked: newState</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 这里要注意：setState 是一个异步方法，所以需要操作缓存的当前值</span></span><br><span class="line">    <span class="keyword">this</span>.props.callbackParent(newState);</span><br><span class="line">  &#125;,</span><br><span class="line">  render: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 从【父组件】获取的值</span></span><br><span class="line">    <span class="keyword">var</span> text = <span class="keyword">this</span>.props.text;</span><br><span class="line">    <span class="comment">// 组件自身的状态数据</span></span><br><span class="line">    <span class="keyword">var</span> checked = <span class="keyword">this</span>.state.checked;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;label&gt;&#123;text&#125;: &lt;input type=<span class="string">"checkbox"</span> checked=&#123;checked&#125; onChange=&#123;<span class="keyword">this</span>.onTextChange&#125; /&gt;&lt;/label&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这样做其实是依赖 props 来传递事件的引用，并通过回调的方式来实现的，这样实现不是特别好，但是在没有任何工具的情况下也是一种简单的实现方式</p>
+<p>这里会出现一个我们在之前讨论的问题，就是组件有多层嵌套的情况下，你必须要一次传入回调函数给 props 来实现子组件向父组件传值或者操作。</p>
+<h3 id="兄弟组件之间传值"><a href="#兄弟组件之间传值" class="headerlink" title="兄弟组件之间传值"></a>兄弟组件之间传值</h3><p>当两个组件有相同的父组件时，就称为兄弟组件（堂兄也算的）。按照React单向数据流方式，我们需要借助父组件进行传递，通过父组件回调函数改变兄弟组件的<code>props</code>。</p>
+<p><strong>方式一</strong><br>通过<code>props</code>传递父组件回调函数。</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Brother1</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;button onClick=&#123;<span class="keyword">this</span>.props.refresh&#125;&gt;</span><br><span class="line">            更新兄弟组件</span><br><span class="line">        &lt;/button&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Brother2</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">         &#123;<span class="keyword">this</span>.props.text || <span class="string">"兄弟组件未更新"</span>&#125;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  refresh()&#123;</span><br><span class="line">    <span class="keyword">return</span> (e)=&gt;&#123;</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">        text: <span class="string">"兄弟组件沟通成功"</span>,</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h2&gt;兄弟组件沟通&lt;/h2&gt;</span><br><span class="line">        &lt;<span class="type">Brother1</span> refresh=&#123;<span class="keyword">this</span>.refresh()&#125;/&gt;</span><br><span class="line">        &lt;<span class="type">Brother2</span> text=&#123;<span class="keyword">this</span>.state.text&#125;/&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>方式二</strong><br>但是如果组件层次太深，上面的兄弟组件沟通方式就效率低了（不建议组件层次太深）。<br>React提供了一种上下文方式（挺方便的），可以让子组件直接访问祖先的数据或函数，无需从祖先组件一层层地传递数据到子组件中。</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">lass <span class="type">Brother1</span> <span class="keyword">extends</span> <span class="type">React</span>.<span class="type">Component</span>&#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;button onClick=&#123;<span class="keyword">this</span>.context.refresh&#125;&gt;</span><br><span class="line">            更新兄弟组件</span><br><span class="line">        &lt;/button&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">Brother1</span>.contextTypes = &#123;</span><br><span class="line">  refresh: <span class="type">React</span>.<span class="type">PropTypes</span>.any</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Brother2</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">         &#123;<span class="keyword">this</span>.context.text || <span class="string">"兄弟组件未更新"</span>&#125;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">Brother2</span>.contextTypes = &#123;</span><br><span class="line">  text: <span class="type">React</span>.<span class="type">PropTypes</span>.any</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  getChildContext()&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      refresh: <span class="keyword">this</span>.refresh(),</span><br><span class="line">          text: <span class="keyword">this</span>.state.text,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  refresh()&#123;</span><br><span class="line">    <span class="keyword">return</span> (e)=&gt;&#123;</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">        text: <span class="string">"兄弟组件沟通成功"</span>,</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h2&gt;兄弟组件沟通&lt;/h2&gt;</span><br><span class="line">        &lt;<span class="type">Brother1</span> /&gt;</span><br><span class="line">        &lt;<span class="type">Brother2</span> text=&#123;<span class="keyword">this</span>.state.text&#125;/&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">Parent</span>.childContextTypes = &#123;</span><br><span class="line">  refresh: <span class="type">React</span>.<span class="type">PropTypes</span>.any,</span><br><span class="line">  text: <span class="type">React</span>.<span class="type">PropTypes</span>.any,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="全局事件"><a href="#全局事件" class="headerlink" title="全局事件"></a>全局事件</h3><p>官网中提到可以使用全局事件来进行组件间的通信，官网推荐Flux（Facebook官方出的），还有Relay、Redux、trandux等第三方类库。这些框架思想都一致，都是统一管理组件state变化情况，达到数据可控目的。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>简单的组件交流我们可以使用上面非全局事件的简单方式，但是当项目复杂，组件间层次越来越深，上面的交流方式就不太合适（当然还是要用到的，简单的交流）。强烈建议使用Flux、Relay、Redux、trandux等类库其中一种，这些类库不只适合React，像Angular等都可以使用。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://www.alloyteam.com/2016/01/some-methods-of-reactjs-communication-between-components/" target="_blank" rel="external">ReactJS组件间沟通的一些方法</a></li>
+<li><a href="http://www.alloyteam.com/2015/09/react-redux/" target="_blank" rel="external">React 数据流管理架构之 Redux 介绍</a></li>
+</ul>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag">#React</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20150722/js-oop-srp/" rel="next" title="JavaScript之五大原则-单一职责">
+                <i class="fa fa-chevron-left"></i> JavaScript之五大原则-单一职责
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20160320/mvc-react-jsx/" rel="prev" title="React学习总结-JSX语法">
+                React学习总结-JSX语法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avator.png"
+               alt="Eleanor" />
+          <p class="site-author-name" itemprop="name">Eleanor</p>
+          <p class="site-description motion-element" itemprop="description">WEB前端, JavaScript, HTML5, PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#【父组件】向【子组件】传值"><span class="nav-number">1.</span> <span class="nav-text">【父组件】向【子组件】传值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【子组件】向【父组件】传值"><span class="nav-number">2.</span> <span class="nav-text">【子组件】向【父组件】传值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兄弟组件之间传值"><span class="nav-number">3.</span> <span class="nav-text">兄弟组件之间传值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局事件"><span class="nav-number">4.</span> <span class="nav-text">全局事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eleanor</span>
+</div>
+
+<!--div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div -->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

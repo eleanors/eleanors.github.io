@@ -249,8 +249,8 @@
             
               
                 
-                <a class="post-title-link" href="/20150722/js-oop-dip/" itemprop="url">
-                  JavaScript之五大原则-依赖倒置原则
+                <a class="post-title-link" href="/20160320/mvc-react-jsx/" itemprop="url">
+                  React学习总结-JSX语法
                 </a>
               
             
@@ -263,8 +263,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-22T15:45:21+08:00" content="2015-07-22">
-              2015-07-22
+            <time itemprop="dateCreated" datetime="2016-03-20T21:16:19+08:00" content="2016-03-20">
+              2016-03-20
             </time>
           </span>
 
@@ -277,8 +277,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/category/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
+                  <a href="/category/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
                   </a>
                 </span>
 
@@ -312,16 +312,143 @@
       
         
           
-          前言
-本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第5篇，依赖倒置原则LSP（The Dependency Inversion Principle ）。
-依赖倒置原则
-依赖倒置原则的描述是：
+          React JSX语法JSX是React的核心组成部分，它使用XML标记的方式去直接声明界面，界面组件之间可以互相嵌套。
 
-A. High-level modules should not depend on low-level modules. Both should depend on abstractions.  高层模块不应该依赖于低层模块，二者都应该依赖于抽象  B.
+JSX=JavaScriptXML
+
+JSX可以理解为在JS中编写与XML类似的语言（与XML有本质上的不同），它的目的不是要在浏览器或者引擎中实现，也不是把其加入ECMAScript标准。它的目的是通过各种编译器将这些标记编译成标准的JS语言。
+JSX是：
+
+基于ECMAScript的一种新特性（并不是一种新语言）
+一种定义带属性树结构（DOM结构）的
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/20150722/js-oop-dip/#more" rel="contents">
+            <a class="btn" href="/20160320/mvc-react-jsx/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/20160221/mvc-react-commuincate/" itemprop="url">
+                  React 数据流 Props 和 State [组件沟通]
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-21T21:16:19+08:00" content="2016-02-21">
+              2016-02-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/category/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          组件沟通因为React的单向数据流方式会有所限制，下面述说组件之间的沟通方式。
+可以分为以下 3 种：
+
+   【父组件】向【子组件】传值；   【子组件】向【父组件】传值；   没有任何嵌套关系的组件之间传值（PS：比如：兄弟组件之间传值）
+
+【父组件】向【子组件】传值父组件更新子组件状态，通过传递props，就可以了。例子如下：
+// 父组件var MyContainer = React.createClass(&#123;  getInitialState: funct
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/20160221/mvc-react-commuincate/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -500,8 +627,8 @@ Bob大叔提出并发扬了S.O.L.I.D五大原则，用来更好地进行面向�
             
               
                 
-                <a class="post-title-link" href="/20150722/js-oop-isp/" itemprop="url">
-                  JavaScript之五大原则-接口隔离原则
+                <a class="post-title-link" href="/20150722/js-oop-lsp/" itemprop="url">
+                  JavaScript之五大原则-里氏替换原则
                 </a>
               
             
@@ -563,136 +690,18 @@ Bob大叔提出并发扬了S.O.L.I.D五大原则，用来更好地进行面向�
       
         
           
-          前言本章我们要讲解的是S.O.L.I.D五大原则JavaScript语言实现的第4篇，接口隔离原则ISP（The Interface Segregation Principle）。
-接口隔离原则的描述是：
+          前言
+里氏替换原则的描述是：
 
-Clients should not be forced to depend on methods they do not use. 不应该强迫客户依赖于它们不用的方法。
+Subtypes must be substitutable for their base types.  派生类型必须可以替换它的基类型。
 
-当用户依赖的接口方法即便只被别的用户使用而自己不用，那它也得实现这些接口，换而言之，一个用户依赖了
+在面向对象编程里，继承提供了一个机制让子类共享基类的代码，这是通过在基类型里封装通用的数据和行为来实现的，然后以基类型来声明更详细的子类型，为了应用里氏替换原则，继承子类型需要在语义上等价于基类型里的期望行为。
+为了来更好的理解，请参考如下代码：
+function Vehicle(my) &#123; 
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/20150722/js-oop-isp/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/20150625/js-es6-class/" itemprop="url">
-                  ECMAScript6之Class
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-25T21:14:03+08:00" content="2015-06-25">
-              2015-06-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/category/ECMAScript6/" itemprop="url" rel="index">
-                    <span itemprop="name">ECMAScript6</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          前言EcmaScript 2015 （又称ES6）通过一些新的关键字，使类成为了JS中一个新的一等公民。但是目前为止，这些关于类的新关键字仅仅是建立在旧的原型系统上的语法糖，所以它们并没有带来任何的新特性。不过，它使代码的可读性变得更高，并且为今后版本里更多面向对象的新特性打下了基础。
-这样做的原因是为了保证向后兼容性。也就是，旧代码可以在不做任何hack的情况下，与新代码同时运行。
-定义类让我们回想一下在ES5中定义一个类的方式。通过不是很常用的Object.defineP
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/20150625/js-es6-class/#more" rel="contents">
+            <a class="btn" href="/20150722/js-oop-lsp/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -726,7 +735,7 @@ Clients should not be forced to depend on methods they do not use. 不应该强�
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -767,7 +776,7 @@ Clients should not be forced to depend on methods they do not use. 不应该强�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-count">42</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -775,7 +784,7 @@ Clients should not be forced to depend on methods they do not use. 不应该强�
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -784,7 +793,7 @@ Clients should not be forced to depend on methods they do not use. 不应该强�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -821,7 +830,7 @@ Clients should not be forced to depend on methods they do not use. 不应该强�
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
