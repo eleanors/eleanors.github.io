@@ -100,7 +100,7 @@ StringSymbol    ES6新增基本类型
 对象指内存中的可以被标识符引用的一块区域
 
  比如：数组、">
-<meta property="og:updated_time" content="2017-11-26T12:38:58.240Z">
+<meta property="og:updated_time" content="2017-11-26T14:17:34.252Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript之简要知识">
 <meta name="twitter:description" content="JS 的 7 种数据类型6 种原始类型Null           只有一个值： null
@@ -123,7 +123,7 @@ StringSymbol    ES6新增基本类型
     motion: true,
     duoshuo: {
       userId: 0,
-      author: 'Author'
+      author: '博主'
     }
   };
 </script>
@@ -131,7 +131,7 @@ StringSymbol    ES6新增基本类型
   <title> JavaScript之简要知识 | 云淡风轻 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
 
@@ -186,7 +186,7 @@ StringSymbol    ES6新增基本类型
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            Home
+            首页
           </a>
         </li>
       
@@ -196,7 +196,7 @@ StringSymbol    ES6新增基本类型
             
               <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
             
-            Categories
+            分类
           </a>
         </li>
       
@@ -206,7 +206,7 @@ StringSymbol    ES6新增基本类型
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            Archives
+            归档
           </a>
         </li>
       
@@ -216,7 +216,7 @@ StringSymbol    ES6新增基本类型
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -226,7 +226,7 @@ StringSymbol    ES6新增基本类型
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            About
+            关于
           </a>
         </li>
       
@@ -279,7 +279,7 @@ StringSymbol    ES6新增基本类型
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2017-10-01T13:36:19+08:00" content="2017-10-01">
               2017-10-01
             </time>
@@ -291,7 +291,7 @@ StringSymbol    ES6新增基本类型
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/category/JavaScript/" itemprop="url" rel="index">
@@ -351,17 +351,17 @@ object (引用类型或 Null 类型)
 </blockquote>
 <figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Func</span><span class="params">()</span> </span>&#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> Func;</span><br><span class="line">obj <span class="keyword">instanceof</span> Func; <span class="comment">// 返回：true （因为 obj.__proto__ === Func.prototype）</span></span><br><span class="line"></span><br><span class="line">Func.prototype = &#123;&#125;; <span class="comment">// 重定向 Func 的 prototype</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj2 = <span class="keyword">new</span> Func;</span><br><span class="line">obj <span class="keyword">instanceof</span> Func; <span class="comment">// 返回：false (因为 Func 的 prototype 指向一个空对象，这个空对象不在 obj 的原型链上)</span></span><br><span class="line">obj2 <span class="keyword">instanceof</span> Func; <span class="comment">// 返回：true</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Func2</span><span class="params">()</span> </span>&#123;&#125;;</span><br><span class="line">Func2.prototype = <span class="keyword">new</span> Func();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj3 = <span class="keyword">new</span> Func2();</span><br><span class="line">obj3 <span class="keyword">instanceof</span> Func2; <span class="comment">// 返回：true （因为 obj3.__proto__ === Func2.prototype）</span></span><br><span class="line">obj3 <span class="keyword">instanceof</span> Func; <span class="comment">// 返回：true （因为 obj3.__proto__.__proto__ === Func.prototype）</span></span><br></pre></td></tr></table></figure>
 <h2 id="defer-和-async"><a href="#defer-和-async" class="headerlink" title="defer 和 async"></a>defer 和 async</h2><blockquote>
-<p>开发者喜欢把 JS 文件放在 body 闭合标签之前，这是为什么呢<br>因为加载 <script src="xxx.js"> 会堵塞 DOM 树的解析与构建<br>解析到 <script src="xxx.js"> 时，浏览器会停止 DOM 树的构建，而去下载当前 JS 文件<br>如果 <script src="xxx.js"> 下载需要6秒，下载时 DOM 树还没有构建完成，那么页面会延迟 6 秒加载，出现 6 秒白屏</p>
+<p>开发者喜欢把 JS 文件放在 body 闭合标签之前，这是为什么呢<br>因为加载<code>&lt;script src=&quot;xxx.js&quot;&gt;</code> 会堵塞 DOM 树的解析与构建<br>解析到<code>&lt;script src=&quot;xxx.js&quot;&gt;</code> 时，浏览器会停止 DOM 树的构建，而去下载当前 JS 文件<br>如果<code>&lt;script src=&quot;xxx.js&quot;&gt;</code>下载需要6秒，下载时 DOM 树还没有构建完成，那么页面会延迟 6 秒加载，出现 6 秒白屏</p>
 </blockquote>
-<h3 id="defer「推迟」"><a href="#defer「推迟」" class="headerlink" title="defer「推迟」"></a>defer「推迟」</h3><h4 id="使用方式："><a href="#使用方式：" class="headerlink" title="使用方式："></a>使用方式：</h4><p>添加 defer 属性：<script src="xxx.js" defer></p>
-<h4 id="作用效果："><a href="#作用效果：" class="headerlink" title="作用效果："></a>作用效果：</h4><p>当浏览器解析到 <script> 时，同时（异步）解析 DOM ，并且开始下载 JS<br>当 JS 下载完成后，并不会马上执行<br>而是继续解析 DOM ，当 DOM 构建完成(DOMContentLoaded)后再执行 JS 内容</p>
-<h3 id="async「异步」"><a href="#async「异步」" class="headerlink" title="async「异步」"></a>async「异步」</h3><h4 id="使用方式：-1"><a href="#使用方式：-1" class="headerlink" title="使用方式："></a>使用方式：</h4><p>添加 async 属性：<script src="xxx.js" async></p>
-<h4 id="作用效果：-1"><a href="#作用效果：-1" class="headerlink" title="作用效果："></a>作用效果：</h4><p>当浏览器解析到 <script> 时，同时（异步）解析 DOM ，并且开始下载 JS<br>当 JS 下载完成后，就会马上执行，并且停止 DOM 的解析<br>当 JS 执行完成后，又开始解析 DOM</p>
+<h3 id="defer「推迟」"><a href="#defer「推迟」" class="headerlink" title="defer「推迟」"></a>defer「推迟」</h3><h4 id="使用方式："><a href="#使用方式：" class="headerlink" title="使用方式："></a>使用方式：</h4><p>添加 defer 属性：    <code>&lt;script src=&quot;xxx.js&quot; defer&gt;</code></p>
+<h4 id="作用效果："><a href="#作用效果：" class="headerlink" title="作用效果："></a>作用效果：</h4><p>当浏览器解析到 <code>&lt;script&gt;</code> 时，同时（异步）解析 DOM ，并且开始下载 JS<br>当 JS 下载完成后，并不会马上执行<br>而是继续解析 DOM ，当 DOM 构建完成(DOMContentLoaded)后再执行 JS 内容</p>
+<h3 id="async「异步」"><a href="#async「异步」" class="headerlink" title="async「异步」"></a>async「异步」</h3><h4 id="使用方式：-1"><a href="#使用方式：-1" class="headerlink" title="使用方式："></a>使用方式：</h4><p>添加 async 属性：<code>&lt;script src=&quot;xxx.js&quot; async&gt;</code></p>
+<h4 id="作用效果：-1"><a href="#作用效果：-1" class="headerlink" title="作用效果："></a>作用效果：</h4><p>当浏览器解析到 <code>&lt;script&gt;</code> 时，同时（异步）解析 DOM ，并且开始下载 JS<br>当 JS 下载完成后，就会马上执行，并且停止 DOM 的解析<br>当 JS 执行完成后，又开始解析 DOM</p>
 <h3 id="总结-defer、async"><a href="#总结-defer、async" class="headerlink" title="总结 defer、async"></a>总结 defer、async</h3><pre><code>defer 和 async 在下载 JS 时是一样的，相较 DOM 解析都是异步
 它俩的差别在于：JS 下载完之后何时执行
 defer 执行顺序是和脚本放置位置一样
 async 执行则是乱序，不管脚本放置顺序如何，只要加载完了就会立刻执行
-defer 的效果最接近「把脚本放在 &lt;body&gt; 闭合标签前」
+defer 的效果最接近「把脚本放在 `&lt;body&gt;` 闭合标签前」
 async 用到的场景比较少
 </code></pre><h3 id="谈谈-offsetTop、offsetParent、offsetHeight"><a href="#谈谈-offsetTop、offsetParent、offsetHeight" class="headerlink" title="谈谈 offsetTop、offsetParent、offsetHeight"></a>谈谈 offsetTop、offsetParent、offsetHeight</h3><p>HTMLElement.offsetParent 是一个只读属性，返回一个指向最近的（closest，指包含层级上的最近）包含该元素的定位元素。如果没有定位的元素，则 offsetParent 为最近的 table, table cell 或根元素（标准模式下为 html；quirks 模式下为 body）。当元素的 style.display 设置为 “none” 时，offsetParent 返回 null。offsetParent 很有用，因为 offsetTop 和 offsetLeft 都是相对于其内边距边界的。</p>
 <p>在 Webkit 中，如果元素为隐藏的（该元素或其祖先元素的 style.display 为 “none”），或者该元素的 style.position 被设为 “fixed”，则该属性返回 null</p>
@@ -369,7 +369,7 @@ async 用到的场景比较少
 <h3 id="元素视图之-getBoundingClientRect-、getClientRects-、elementFromPoint"><a href="#元素视图之-getBoundingClientRect-、getClientRects-、elementFromPoint" class="headerlink" title="元素视图之 getBoundingClientRect()、getClientRects()、elementFromPoint()"></a>元素视图之 getBoundingClientRect()、getClientRects()、elementFromPoint()</h3><p>HTMLElement.prototype.getBoundingClientRect</p>
 <p>用于判断元素尺寸和位置<br>返回值：</p>
 <figure class="highlight dts"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 下面的值除了 width、height 都可能为负数「元素不在视图内的时候」</span></span><br><span class="line">    <span class="comment">// 以下值，都是 number 类型</span></span><br><span class="line">    <span class="comment">// 注意：IE7以下浏览器，视口的默认原点为(2, 2)，开发者注意</span></span><br><span class="line"><span class="symbol">    top:</span> <span class="number">0</span>, <span class="comment">// 元素上 border 相对于视口上边的纵坐标</span></span><br><span class="line"><span class="symbol">    bottom:</span> <span class="number">0</span>, <span class="comment">// 元素下 border 相对于视口上边的纵坐标</span></span><br><span class="line"><span class="symbol">    left:</span> <span class="number">0</span>, <span class="comment">// 元素左 border 相对视口左边的横坐标</span></span><br><span class="line"><span class="symbol">    right:</span> <span class="number">0</span>, <span class="comment">// 元素右 border 相对视口左边的横坐标</span></span><br><span class="line"><span class="symbol">    width:</span> <span class="number">0</span>, <span class="comment">// 元素宽度（border+padding+width）</span></span><br><span class="line"><span class="symbol">    height:</span> <span class="number">0</span> <span class="comment">// 元素高度（border+padding+width）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="HTMLElement-prototype-getClientRects"><a href="#HTMLElement-prototype-getClientRects" class="headerlink" title="HTMLElement.prototype.getClientRects"></a>HTMLElement.prototype.getClientRects</h4><p>主要用于行内「inline」元素（如：<a> … ）<br>可以用于判断行内元素是否换行，以及行内元素的每一行的位置偏移<br>可以用于读取行内元素的行数<br>返回值：<br>一个 TextRectangle 对象「一个类数组对象」</p>
+<h4 id="HTMLElement-prototype-getClientRects"><a href="#HTMLElement-prototype-getClientRects" class="headerlink" title="HTMLElement.prototype.getClientRects"></a>HTMLElement.prototype.getClientRects</h4><p>主要用于行内「inline」元素（如：<a> … ）<br>可以用于判断行内元素是否换行，以及行内元素的每一行的位置偏移<br>可以用于读取行内元素的行数<br>返回值：<br>一个 TextRectangle 对象「一个类数组对象」</a></p>
 <figure class="highlight stata"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="keyword">test</span> = element.getClientRects();</span><br><span class="line"><span class="keyword">test</span>.length; <span class="comment">// 如果 element 是非 inline 元素，test.length 为 1，否则为元素的行数</span></span><br><span class="line"><span class="comment">// test[0]、test[1]…返回的值与 getBoundingClientRect 类似</span></span><br></pre></td></tr></table></figure>
 <h4 id="elementFromPoint"><a href="#elementFromPoint" class="headerlink" title="elementFromPoint"></a>elementFromPoint</h4><pre><code>查看视口中指定位置是什么元素
 注意：返回的元素是指定坐标的最上层（z-index 最大）和最里层（最里层的子元素）的 Element 对象
@@ -406,7 +406,7 @@ new 的权级要高于 bind
 </code></pre><h3 id="RegExp-prototype-exec"><a href="#RegExp-prototype-exec" class="headerlink" title="RegExp.prototype.exec"></a>RegExp.prototype.exec</h3><p>exec 返回的是数组，如果没有匹配返回为 null（注意：不是空数组）<br>正则有个属性：lastIndex（默认为 0 ），只有在全局匹配模式才改变</p>
 <figure class="highlight stata"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> str = 'xxabxxabbxx';</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 普通正则的情况</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">reg</span> = /ab*/;</span><br><span class="line"><span class="keyword">reg</span>.lastIndex; <span class="comment">// 返回：0</span></span><br><span class="line"><span class="comment">// 从下标 0 开始匹配，找到「ab」即返回</span></span><br><span class="line"><span class="keyword">reg</span>.exec(str); <span class="comment">// 返回：["ab"]</span></span><br><span class="line"><span class="comment">// 因为正则没有定义全局匹配，所以 lastIndex 不会改变，依旧为 0</span></span><br><span class="line"><span class="keyword">reg</span>.lastIndex; <span class="comment">// 返回：0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 带有子元素正则情况</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">reg</span> = /a(b*)/;</span><br><span class="line"><span class="keyword">reg</span>.lastIndex; <span class="comment">// 返回：0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从下标 0 开始匹配，找到「ab」，数组存入第一个元素</span></span><br><span class="line"><span class="comment">// 根据「(b*)」再找到「b」，数组存入第二个元素</span></span><br><span class="line"><span class="keyword">reg</span>.exec(str); <span class="comment">// 返回：["ab", "b"]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为正则没有定义全局匹配，所以 lastIndex 不会改变，依旧为 0</span></span><br><span class="line"><span class="keyword">reg</span>.lastIndex; <span class="comment">// 返回：0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 带有子元素且全局配备的情况</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">reg</span> = /a(b*)/<span class="keyword">g</span>;</span><br><span class="line"><span class="keyword">reg</span>.lastIndex; <span class="comment">// 返回：0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从下标 0 开始匹配，找到「ab」，数组存入第一个元素</span></span><br><span class="line"><span class="comment">// 根据「(b*)」找到「b」，数组存入第二个元素</span></span><br><span class="line"><span class="keyword">reg</span>.exec(str); <span class="comment">// 返回：["ab", "b"]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为正则定义了全局匹配，所以 lastIndex 改为下一次开始匹配的下标</span></span><br><span class="line"><span class="keyword">reg</span>.lastIndex; <span class="comment">// 返回：4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从下标 4 开始匹配，找到「abb」，数组存入第一个元素</span></span><br><span class="line"><span class="comment">// 根据「(b*)」找到「bb」，数组存入第二个元素</span></span><br><span class="line"><span class="keyword">reg</span>.exec(str); <span class="comment">// 返回：["abb", "bb"]</span></span><br></pre></td></tr></table></figure>
 <h3 id="RegExp-prototype-test"><a href="#RegExp-prototype-test" class="headerlink" title="RegExp.prototype.test"></a>RegExp.prototype.test</h3><p>test方法执行一个检索，用来查看正则表达式与指定的字符串是否匹配，返回 true 或 false<br>test类似于 String.prototype.search() 方法<br>差别在于 test 返回一个布尔值，而 search 返回索引（如果找到）或者 -1（如果没找到)</p>
-<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> str = 'xxabxxabbxx';</span><br><span class="line"><span class="keyword">var</span> <span class="keyword">reg</span> = /ab*/;</span><br><span class="line"><span class="keyword">reg</span>.<span class="keyword">test</span>(str); <span class="comment">// 返回：true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意：</span></span><br><span class="line">/undefined/.<span class="keyword">test</span>(); <span class="comment">// 返回：true</span></span><br><span class="line">/undefined/.<span class="keyword">test</span>('undefined'); <span class="comment">// 返回：true</span></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">## 字符串之 match 和 <span class="keyword">search</span></span><br><span class="line"></span><br><span class="line">### String.prototype.<span class="built_in">match</span></span><br><span class="line"></span><br><span class="line">正则没有 <span class="keyword">g</span> 标志，str.<span class="built_in">match</span>() 返回和 RegExp.exec() 相同</span><br><span class="line">正则没有 <span class="keyword">g</span> 标志，返回的 Array 有一个 <span class="keyword">input</span> 属性（解析的原始字符串）</span><br><span class="line">正则没有 <span class="keyword">g</span> 标志，返回的 Array 有一个 index 属性（匹配结果在原字符串中的索引「以 0 开始」）</span><br><span class="line">正则有 <span class="keyword">g</span> 标志，match 返回的是数组，如果没有匹配返回为 null（注意：不是空数组）</span><br></pre></td></tr></table></figure>
+<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> str = 'xxabxxabbxx';</span><br><span class="line"><span class="keyword">var</span> <span class="keyword">reg</span> = /ab*/;</span><br><span class="line"><span class="keyword">reg</span>.<span class="keyword">test</span>(str); <span class="comment">// 返回：true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意：</span></span><br><span class="line">/undefined/.<span class="keyword">test</span>(); <span class="comment">// 返回：true</span></span><br><span class="line">/undefined/.<span class="keyword">test</span>('undefined'); <span class="comment">// 返回：true</span></span><br><span class="line"></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">## 字符串之 match 和 <span class="keyword">search</span></span><br><span class="line"></span><br><span class="line">### String.prototype.<span class="built_in">match</span></span><br><span class="line"></span><br><span class="line">正则没有 <span class="keyword">g</span> 标志，str.<span class="built_in">match</span>() 返回和 RegExp.exec() 相同</span><br><span class="line">正则没有 <span class="keyword">g</span> 标志，返回的 Array 有一个 <span class="keyword">input</span> 属性（解析的原始字符串）</span><br><span class="line">正则没有 <span class="keyword">g</span> 标志，返回的 Array 有一个 index 属性（匹配结果在原字符串中的索引「以 0 开始」）</span><br><span class="line">正则有 <span class="keyword">g</span> 标志，match 返回的是数组，如果没有匹配返回为 null（注意：不是空数组）</span><br></pre></td></tr></table></figure>
 <p>/ 没有 g 的列子<br>var str = ‘OK abc 1.2.3’,<br>    reg = /abc (\d+(.\d)*)/i;</p>
 <p>console.log(str.match(reg));<br>// 返回：<br>// [<br>//    “abc 1.2.3”, // 整个匹配结果<br>//    “1.2.3”,     // 被 (\d+(.\d)*) 捕获<br>//    “.3”,        // 被 (.\d) 捕获的最后一个值<br>//    “index”,     // 值为：3。 整个匹配从 0 开始的索引<br>//    “input”      // 值为：’OK abc 1.2.3’。被解析的原始字符串<br>// ]</p>
 <p>// 有g的列子<br>var str = ‘ABCDabcd’,<br>    reg = /[A-C]/gi;<br>console.log(str.match(reg));<br>// 返回：[“A”, “B”, “C”, “a”, “b”, “c”]</p>
@@ -465,7 +465,7 @@ window.outerWidth 表示浏览器的宽度，通常和包括浏览器的滚动�
 注意：Chrome 浏览器 window.innerWidth 和 window.outerWidth 通常没有区别「因为浏览器左右无边框」
 
 screen.width 表示显示器的分辨率，和浏览器几乎没有关系
-</code></pre></script></p></blockquote>
+</code></pre>
       
     </div>
     
@@ -549,10 +549,10 @@ screen.width 表示显示器的分辨率，和浏览器几乎没有关系
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            站点概览
           </li>
         </ul>
       
@@ -568,8 +568,8 @@ screen.width 表示显示器的分辨率，和浏览器几乎没有关系
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">43</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
@@ -577,7 +577,7 @@ screen.width 表示显示器的分辨率，和浏览器几乎没有关系
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">12</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">分类</span>
               </a>
             </div>
           
@@ -586,7 +586,7 @@ screen.width 表示显示器的分辨率，和浏览器几乎没有关系
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">11</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">标签</span>
               </a>
             </div>
           
@@ -614,7 +614,7 @@ screen.width 表示显示器的分辨率，和浏览器几乎没有关系
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS-的-7-种数据类型"><span class="nav-number">1.</span> <span class="nav-text">JS 的 7 种数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-种原始类型"><span class="nav-number">1.1.</span> <span class="nav-text">6 种原始类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1种引用类型"><span class="nav-number">1.2.</span> <span class="nav-text">1种引用类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型检测之-instanceof"><span class="nav-number">2.</span> <span class="nav-text">数据类型检测之 instanceof</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defer-和-async"><span class="nav-number">3.</span> <span class="nav-text">defer 和 async</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS-的-7-种数据类型"><span class="nav-number">1.</span> <span class="nav-text">JS 的 7 种数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-种原始类型"><span class="nav-number">1.1.</span> <span class="nav-text">6 种原始类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1种引用类型"><span class="nav-number">1.2.</span> <span class="nav-text">1种引用类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型检测之-instanceof"><span class="nav-number">2.</span> <span class="nav-text">数据类型检测之 instanceof</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defer-和-async"><span class="nav-number">3.</span> <span class="nav-text">defer 和 async</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#defer「推迟」"><span class="nav-number">3.1.</span> <span class="nav-text">defer「推迟」</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用方式："><span class="nav-number">3.1.1.</span> <span class="nav-text">使用方式：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作用效果："><span class="nav-number">3.1.2.</span> <span class="nav-text">作用效果：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#async「异步」"><span class="nav-number">3.2.</span> <span class="nav-text">async「异步」</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用方式：-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">使用方式：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作用效果：-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">作用效果：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结-defer、async"><span class="nav-number">3.3.</span> <span class="nav-text">总结 defer、async</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#谈谈-offsetTop、offsetParent、offsetHeight"><span class="nav-number">3.4.</span> <span class="nav-text">谈谈 offsetTop、offsetParent、offsetHeight</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元素视图之-getBoundingClientRect-、getClientRects-、elementFromPoint"><span class="nav-number">3.5.</span> <span class="nav-text">元素视图之 getBoundingClientRect()、getClientRects()、elementFromPoint()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTMLElement-prototype-getClientRects"><span class="nav-number">3.5.1.</span> <span class="nav-text">HTMLElement.prototype.getClientRects</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#elementFromPoint"><span class="nav-number">3.5.2.</span> <span class="nav-text">elementFromPoint</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数继承"><span class="nav-number">3.6.</span> <span class="nav-text">函数继承</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#arguments、callee、caller"><span class="nav-number">3.6.1.</span> <span class="nav-text">arguments、callee、caller</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#arguments"><span class="nav-number">3.6.2.</span> <span class="nav-text">arguments</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#callee"><span class="nav-number">3.6.3.</span> <span class="nav-text">callee</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#caller"><span class="nav-number">3.6.4.</span> <span class="nav-text">caller</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么找到-this"><span class="nav-number">4.</span> <span class="nav-text">怎么找到 this</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局环境中找-this"><span class="nav-number">4.1.</span> <span class="nav-text">全局环境中找 this</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在执行语句前面有点-•-、-有明确父级执行对象的情况找-this"><span class="nav-number">4.1.1.</span> <span class="nav-text">在执行语句前面有点 • 、 有明确父级执行对象的情况找 this</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数内部的函数找-this"><span class="nav-number">4.2.</span> <span class="nav-text">函数内部的函数找 this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在-call、apply-和-bind-的情况找-this"><span class="nav-number">4.3.</span> <span class="nav-text">存在 call、apply 和 bind 的情况找 this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有-new-关键字的情况找-this"><span class="nav-number">4.4.</span> <span class="nav-text">有 new 关键字的情况找 this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM-绑定事件监听函数找-this"><span class="nav-number">4.5.</span> <span class="nav-text">DOM 绑定事件监听函数找 this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6的箭头函数找-this"><span class="nav-number">4.6.</span> <span class="nav-text">ES6的箭头函数找 this</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则之-exec-和-test"><span class="nav-number">5.</span> <span class="nav-text">正则之 exec 和 test</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RegExp-prototype-exec"><span class="nav-number">5.1.</span> <span class="nav-text">RegExp.prototype.exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RegExp-prototype-test"><span class="nav-number">5.2.</span> <span class="nav-text">RegExp.prototype.test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回值"><span class="nav-number">5.3.</span> <span class="nav-text">返回值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#宽度相关"><span class="nav-number">6.</span> <span class="nav-text">宽度相关</span></a></li></ol></div>
             
           </div>
         </section>
@@ -641,11 +641,11 @@ screen.width 表示显示器的分辨率，和浏览器几乎没有关系
 </div>
 
 <!--div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  Theme -
+  主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
